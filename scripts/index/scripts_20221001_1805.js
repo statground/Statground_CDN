@@ -90,6 +90,7 @@ function insert_webr()
 			$("#div_webr_usercount").html("")
 			$("#div_webr_usercount").html(html_userCount(data.userCount))
 
+			console.log(data.recentlyArticle)
 			$("#div_webr_article").html("")
 			$("#div_webr_article").html(html_article(data.recentlyArticle.nick_name, data.recentlyArticle.title))
 
@@ -132,4 +133,30 @@ function insert_webr()
 
 		return html
 	}
+}
+
+
+
+// Toy Projects
+function insert_toy_project(){
+	function getHtml(imageURL, linkURL){
+		html = '<div class="icon-box-item text-center col-lg-3 col-md-6 mb-3">'
+		html += '<div class="rounded shadow py-5 px-4">'
+
+		html += '<img src="' + imageURL + '">'
+		html += '<h3 class="mb-3"></h3>'
+		html += '<a class="btn btn-sm btn-outline-primary" href="' + linkURL + '">'
+		html += '바로가기'
+		html += '</a>'
+
+		html += '</div>'
+		html += '</div>'
+
+		$("#div_toy_project").append(html)
+	}
+
+	getHtml("https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets/images/banners/toys_youtube.png", "/youtube_metrics")
+	getHtml("https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets/images/banners/toys_smartstore.png", "/smartstore")
+	getHtml("https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets/images/banners/toys_game_correlation.png", "/toys/correlation")
+	getHtml("https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets/images/banners/toys_game_cluster.png", "/toys/cluster")
 }
