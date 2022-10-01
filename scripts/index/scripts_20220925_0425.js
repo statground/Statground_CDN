@@ -90,7 +90,6 @@ function get_index_webr()
 			$("#div_webr_usercount").html("")
 			$("#div_webr_usercount").html(html_userCount(data.userCount))
 
-			console.log(data.recentlyArticle)
 			$("#div_webr_article").html("")
 			$("#div_webr_article").html(html_article(data.recentlyArticle.nick_name, data.recentlyArticle.title))
 
