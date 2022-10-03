@@ -91,7 +91,7 @@ function insert_webr()
 			$("#div_webr_usercount").html(html_userCount(data.userCount))
 
 			$("#div_webr_article").html("")
-			$("#div_webr_article").html(html_article(data.recentlyArticle.nick_name, data.recentlyArticle.title))
+			$("#div_webr_article").html(html_article(data.recentlyArticle.nick_name, data.recentlyArticle.title, data.recentlyArticle.regdate))
 
 			$("#div_webr_book").html("")
 			$("#div_webr_book").html(html_book(data.book.image, data.book.title, data.book.description))
@@ -108,13 +108,13 @@ function insert_webr()
 	}
 
 	function html_article(username, title, regdate) {
-		regdate = regdate.substring(0, 3) + "-" + regdate.substring(4, 5) + regdate.substring(6, 7)
+		regdate = regdate.substring(0, 4) + "-" + regdate.substring(4, 6) + "-" + regdate.substring(6, 8)
 		
 		html = '<h3 class="mb-3">자유게시판</h3>'
-		html += '<p class="mb-0">' + textLengthOverCut(title.toString(), 50) + ' (' + regdate + ')</p>'
+		html += '<p class="mb-0">' + textLengthOverCut(title.toString(), 50) + '</p>'
 		html += '<p class="mb-0" color="black" style="font-size:small;">' 
 		html += '<i class="fa-solid fa-user"></i>&nbsp;&nbsp;'
-		html += username.toString()
+		html += username.toString() + ' (' + regdate + ')'
 		html += '</p>'
 
 		return html
