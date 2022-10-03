@@ -108,13 +108,13 @@ function insert_webr()
 	}
 
 	function html_article(username, title, regdate) {
-		regdate = regdate.substring(0, 4) + "-" + regdate.substring(4, 6) + regdate.substring(6, 8)
+		regdate = regdate.substring(0, 4) + "-" + regdate.substring(5, 7) + regdate.substring(8, 10)
 		
 		html = '<h3 class="mb-3">자유게시판</h3>'
-		html += '<p class="mb-0">' + textLengthOverCut(title.toString(), 50) + '</p>'
+		html += '<p class="mb-0">' + textLengthOverCut(title.toString(), 50) + ' (' + regdate + ')</p>'
 		html += '<p class="mb-0" color="black" style="font-size:small;">' 
 		html += '<i class="fa-solid fa-user"></i>&nbsp;&nbsp;'
-		html += username.toString() + ' (' + regdate + ')'
+		html += username.toString()
 		html += '</p>'
 
 		return html
