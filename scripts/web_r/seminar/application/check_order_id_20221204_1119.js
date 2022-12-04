@@ -49,3 +49,4 @@ function check_order_id(orderID)
 			$("#div_failed").show()
 		},
 	})
+}
