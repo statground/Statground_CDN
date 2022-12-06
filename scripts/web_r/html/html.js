@@ -1,3 +1,4 @@
+// Container - Header
 function html_container_header(title="", msg="")
 {
 	html = '<div class="container">'
@@ -13,5 +14,18 @@ function html_container_header(title="", msg="")
 	html += '</div>'
 	html += '</div>'
 	
+	return html
+}
+
+
+// Button
+function html_button(color="primary", msg = "", onclick=null, disabled=false)
+{
+	html = '<button type="button" class="btn btn-' + color + '" '
+	if (onclick != null) { html += 'onclick="' + onclick + '" '; }
+	if (disabled) { html += 'disabled ' }
+	html += '>'
+	html += msg
+	html += '</button>'
 	return html
 }
