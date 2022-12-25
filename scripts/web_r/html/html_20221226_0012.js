@@ -23,7 +23,7 @@ function html_button(color="primary", msg = "", onclick=null, disabled=false)
 {
 	html = '<button type="button" class="btn btn-' + color + '" '
 	if (onclick != null) { html += 'onclick="' + onclick + '" '; }
-	if (disabled) { html += 'disabled="disabled" ' }
+	if (disabled) { html += 'disabled="disabled" '; }
 	html += '>'
 	html += msg
 	html += '</button>'
