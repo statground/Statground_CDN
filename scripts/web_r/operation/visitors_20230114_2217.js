@@ -67,6 +67,49 @@ function check_visitors_statistics_pageview()
 }
 
 
+// 방문 현황 - 방문 추이 (그래프)
+function get_graph_visitors(type)
+{
+	$("#div_visitors_graph_loading").show()
+	$("#div_visitors_graph_buttons").hide()
+	$("#div_visitors_graph_daily").hide()
+	$("#div_visitors_graph_monthly").hide()
+	$("#div_visitors_graph_yearly").hide()
+
+	$.ajax({
+		url : "/operation/ajax_visitors_graph",
+		success:function(data){
+			options = {
+				series: {
+					0: {targetAxisIndex: 0},
+					1: {targetAxisIndex: 1}
+				},
+				width: '100%',
+				legend: { position: 'none' },
+				crosshair: {orientation: 'vertical', trigger: 'focus'},
+				focusTarget: 'category',
+				hAxis: { textStyle: { color: 'green' }, format: 'yy-MM-dd' },
+				explorer: { actions: ['dragToZoom', 'rightClickToReset'], axis: 'horizontal' },
+				bar: { groupWidth: "90%" } 
+			};
+
+			$("#div_visitors_graph_loading").hide()
+			$("#div_visitors_graph_buttons").show()
+			if (type=="daily"){
+				$("#div_visitors_graph_daily").show()
+				bar(data.daily, 'div_visitors_graph_daily', options);
+			} else if (type=="monthly"){
+				$("#div_visitors_graph_monthly").show()
+				bar(data.monthly, 'div_visitors_graph_monthly', options);
+			} else if (type=="yearly"){
+				$("#div_visitors_graph_yearly").show()
+				bar(data.yearly, 'div_visitors_graph_yearly', options);
+			}
+		}
+	})
+}
+
+
 
 // 방문 현황 (표)
 function get_table_visitors(type="daily")
