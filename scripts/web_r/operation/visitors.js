@@ -1,0 +1,67 @@
+// 방문 현황 - 방문자 수
+function check_visitors_statistics_visitors()
+{
+	$.ajax({
+		url : "/operation/ajax_visitors_statistics_visitors",
+		success:function(data){
+			html = ""
+			$("#div_visitors_statistics_count").html(html)
+
+			html += '<p style="text-align:center;">방문자 수</p>'
+			html += insert_div_block('방문자 수/일',
+									numberWithCommas(data.avg_total) + '명',
+									3)
+			html += insert_div_block('올해의 방문자 수/일 ',
+									numberWithCommas(data.avg_current_year) + '명' 
+									+ '<br/>'
+									+ '(작년: ' + numberWithCommas(data.avg_last_year) + '명)',
+									3)
+			html += insert_div_block('이번 달 방문자 수/일',
+									numberWithCommas(data.avg_current_month) + '명' 
+									+ '<br/>'
+									+ '(지난 달: ' + numberWithCommas(data.avg_last_month) + '명)',
+									3)
+			html += insert_div_block('오늘 방문자 수',
+									numberWithCommas(data.avg_today) + '명' 
+									+ '<br/>'
+									+ '(어제: ' + numberWithCommas(data.avg_yesterday) + '명)',
+									3)
+			$("#div_visitors_statistics_count").html(html)
+		}
+	})
+}
+
+
+
+// 방문 현황 - 페이지 뷰
+function check_visitors_statistics_pageview()
+{
+	$.ajax({
+		url : "/operation/ajax_visitors_statistics_pageview",
+		success:function(data){
+			html = ""
+			$("#div_visitors_statistics_pageview").html(html)
+
+			html += '<p style="text-align:center;">페이지 뷰</p>'
+			html += insert_div_block('총 페이지 뷰',
+									numberWithCommas(data.sum_total) + '명',
+									3)
+			html += insert_div_block('올해의 페이지 뷰 ',
+									numberWithCommas(data.sum_current_year) + '명' 
+									+ '<br/>'
+									+ '(작년: ' + numberWithCommas(data.sum_last_year) + '명)',
+									3)
+			html += insert_div_block('이번 달 페이지 뷰',
+									numberWithCommas(data.sum_current_month) + '명' 
+									+ '<br/>'
+									+ '(지난 달: ' + numberWithCommas(data.sum_last_month) + '명)',
+									3)
+			html += insert_div_block('오늘 페이지 뷰',
+									numberWithCommas(data.sum_today) + '명' 
+									+ '<br/>'
+									+ '(어제: ' + numberWithCommas(data.sum_yesterday) + '명)',
+									3)
+			$("#div_visitors_statistics_pageview").html(html)
+		}
+	})
+}

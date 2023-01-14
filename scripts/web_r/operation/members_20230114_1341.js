@@ -1,4 +1,4 @@
-// 회원 현황 - 멤머 수
+// 회원 현황 - 멤버 수
 function check_members_statistics_count()
 {
 	$.ajax({
