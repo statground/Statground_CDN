@@ -37,7 +37,6 @@ async function Div_board(){
 	}
 
 	function Result(props) {
-		console.log(props)
 		return (
 			<div class="container mx-auto">
 				<div class="grid lg:grid-cols-12 md:grid-cols-1 mx-auto">
