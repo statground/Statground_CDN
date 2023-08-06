@@ -26,6 +26,7 @@ async function click_login() {
 		// 그 외 로그인 실패
 		} else {
 			alert ("계정 정보가 잘못되었습니다.")
+			
 		}
 
 
