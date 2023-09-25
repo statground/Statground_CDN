@@ -60,7 +60,7 @@ function Div_clients() {
 					<Div_client name="JK통계컨설팅"
 								url_image="https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/jk.jpg" />
 								
-					<Div_client name="DS이노베이션"
+					<Div_client name="(주)DS이노베이션"
 								url_image="https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/dsinnovation.jpg" />
 				</div>
 			</div>
