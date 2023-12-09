@@ -198,5 +198,11 @@ let data_clients = [
 		"uuid" : "bdcb7d14-33ae-4234-b779-dc8fb35042c5",
 		"name" : "(주)DS이노베이션",
 		"url_image" : "https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/dsinnovation.jpg"
+	},
+	{
+		"uuid" : "31737948-9640-11ee-b9d1-0242ac120002",
+		"name" : "광주과학고등학교",
+		"url_image" : "https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/gwangjuscienceacademy.jpg"
 	}
+	
 ]
