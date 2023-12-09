@@ -91,13 +91,13 @@ function set_footer() {
 		}
 
 		return (
-			<div class="py-24 bg-white rounded-lg md:px-6 md:py-8 w-full max-w-screen">
-				<div class="flex flex-row justify-between items-center md:flex-col mx-auto">
+			<div class="py-24 bg-white rounded-lg md:py-8 w-full">
+				<div class="flex flex-row justify-between items-center md:flex-col">
 					<Div_footer_address />
 					<Div_footer_sub_menu />
 				</div>
 		
-				<hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" />
+				<hr class="my-6 border-gray-200 lg:my-8" />
 				
 				<div class="flex flex-row justify-center items-center w-full">
 					<Div_footer_icons />
