@@ -203,6 +203,11 @@ let data_clients = [
 		"uuid" : "31737948-9640-11ee-b9d1-0242ac120002",
 		"name" : "광주과학고등학교",
 		"url_image" : "https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/gwangjuscienceacademy.jpg"
+	},
+	{
+		"uuid" : "13ea89e7-a348-4961-9652-d1f5016e225e",
+		"name" : "한국원자력의학원",
+		"url_image" : "https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/kirams.jpg"
 	}
 	
 ]
