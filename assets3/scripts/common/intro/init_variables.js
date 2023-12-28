@@ -208,6 +208,10 @@ let data_clients = [
 		"uuid" : "13ea89e7-a348-4961-9652-d1f5016e225e",
 		"name" : "한국원자력의학원",
 		"url_image" : "https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/kirams.jpg"
+	},
+	{
+		"uuid" : "481fced5-eb1c-48ee-b49f-61a8ad0b0544",
+		"name" : "인천과학예술영재학교",
+		"url_image" : "https://cdn.jsdelivr.net/gh/statground/Statground_CDN/assets3/images/client/icehs.jpg"
 	}
-	
 ]
