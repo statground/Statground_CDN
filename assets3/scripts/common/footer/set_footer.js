@@ -43,16 +43,16 @@ function set_footer() {
 			return (
 				<ul class="flex flex-wrap items-center mb-6 text-center text-sm sm:mb-0 pt-8">
 					<li>
-						<a href="/intro/notice" class={class_sub_menu}>공지사항</a>
+						<a href="/intro/notice/" class={class_sub_menu}>공지사항</a>
 					</li>
 					<li>
-						<a href="/intro" class={class_sub_menu}>회사 소개</a>
+						<a href="/intro/" class={class_sub_menu}>회사 소개</a>
 					</li>
 					<li>
-						<a href="/intro/terms" class={class_sub_menu}>서비스 이용약관</a>
+						<a href="/intro/terms/" class={class_sub_menu}>서비스 이용약관</a>
 					</li>
 					<li>
-						<a href="/intro/privates" class={class_sub_menu}>개인정보 보호 방침</a>
+						<a href="/intro/privates/" class={class_sub_menu}>개인정보 보호 방침</a>
 					</li>
 				</ul>
 			)
