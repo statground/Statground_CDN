@@ -4,12 +4,17 @@ async function get_menu_header() {
 	const mount = document.getElementById("div_menu_sub_header");
 	if (!mount) return;
 
-	const data = await fetch("/ajax_get_menu_header/")
+	const raw = await fetch("/ajax_get_menu_header/")
 	  .then((res) => res.json())
-	  .catch(() => ({ role: "", name: "" }));
+	  .catch(() => ({}));
 
-	window.gv_role = data["role"] || "";
-	console.log("*** role:", window.gv_role);
+	const data = {
+	  nickname: raw.nickname || raw.name || raw.username || raw.displayName || window.gv_username || "",
+	  role: raw.role || raw.user_role || raw.user_role_name || raw.group || window.gv_role || "",
+	  _raw: raw,
+	};
+	window.gv_role = data.role || "";
+	console.log("*** role:", window.gv_role, "raw:", raw);
 
 	function Div_sub_menu_header(props) {
 	  function Div_sub(props) {
@@ -25,6 +30,9 @@ async function get_menu_header() {
 
 	  const isLoggedIn = (window.gv_username || "") !== "";
 
+	  const nameToShow = (props.data && (props.data.name || props.data.nickname || props.data.username)) || window.gv_username || "";
+	  const roleToShow = (props.data && (props.data.role || props.data.user_role)) || window.gv_role || "";
+
 	  return (
 		<div onClick={() => click_dropdown()} id="div_menu_sub_header"
 			class="flex justify-center items-center w-full h-[35px]">
@@ -38,7 +46,7 @@ async function get_menu_header() {
 			<div class="flex flex-row justify-end items-center text-end text-sm space-x-4 w-full h-full px-[35px]">
 			  <Div_sub
 				url={"/account/myinfo/"}
-				name={props.data.name}
+				name={nameToShow}
 				url_image={
 				  "https://cdn.jsdelivr.net/gh/statground/statkiss_CDN/images/svg/header_user.svg"
 				}
@@ -49,8 +57,8 @@ async function get_menu_header() {
 				href="/intro/membership/"
 				class="flex flex-row justify-center items-center font-extrabold hover:underline"
 			  >
-				{props.data.role}
-				{props.data.role == "준회원" && (
+				{roleToShow}
+				{roleToShow == "준회원" && (
 				  <div class="ml-2 animate-pulse">
 					<span class="font-extrabold text-red-500">(정회원 가입하기)</span>
 				  </div>
@@ -58,8 +66,8 @@ async function get_menu_header() {
 			  </a>
 			  <span>|</span>
 
-			  {props.data.role == "관리자" && <Div_sub url={"/admin/"} name={"Admin Page"} />}
-			  {props.data.role == "관리자" && <span>|</span>}
+			  {roleToShow == "관리자" && <Div_sub url={"/admin/"} name={"Admin Page"} />}
+			  {roleToShow == "관리자" && <span>|</span>}
 
 			  <Div_sub url={"/account/logout/"} name={"로그아웃"} />
 			</div>
