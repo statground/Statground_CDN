@@ -1,0 +1,15 @@
+/* 데모용 배경 그리드(가독성 위주, 과한 효과 X) */
+.bg-grid {
+	background-image:
+	  radial-gradient(circle at 1px 1px, rgba(148,163,184,.25) 1px, transparent 0);
+	background-size: 24px 24px;
+}
+
+/* line-clamp fallback (tailwind line-clamp 플러그인 미적용 환경 대비) */
+.line-clamp-1, .line-clamp-2 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.line-clamp-1 { -webkit-line-clamp: 1; }
+.line-clamp-2 { -webkit-line-clamp: 2; }
