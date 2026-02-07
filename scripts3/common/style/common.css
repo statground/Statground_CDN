@@ -1,0 +1,57 @@
+/*
+  Tailwind 레이어 설명
+  - @layer base: 전역 기본 스타일(typography, body 기본색 등)을 정의
+  - @layer components: @apply 를 활용해 재사용 컴포넌트 클래스를 정의
+  - 본 블록은 Tailwind CDN이 런타임에 해석하며, 일반 CSS와 섞여 있습니다.
+  - 통계마당 UI 원칙(가독성/탐색 용이성) 기준으로 과한 이펙트는 최소화하고,
+	필요한 전환(transition) 정도만 적용합니다.
+*/
+
+@layer base {
+  body {
+	background-color: #ffffff;
+	color: #111827;
+	font-family: 'Pretendard', sans-serif;
+	transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	overflow: hidden;
+  }
+}
+
+@layer components {
+  .theme-gaming { background-color: #0f172a; color: #f8fafc; }
+  .theme-sensitive { background-color: #450a0a; color: #fef2f2; }
+  .theme-shopping { background-color: #fffaf0; color: #431407; }
+
+  .morph-input {
+	@apply w-full bg-transparent border-b-4 border-slate-900 rounded-md py-1.5 md:py-2 px-4 pr-6 text-xl md:text-2xl font-extrabold focus:outline-none focus:border-blue-600 transition-all duration-500 placeholder:text-slate-300;
+  }
+  .theme-gaming .morph-input { @apply border-slate-100 text-white placeholder:text-slate-700; }
+  .theme-sensitive .morph-input { @apply border-red-200 text-red-100 placeholder:text-red-900; }
+
+  .data-fragment {
+	@apply opacity-0 translate-y-10 transition-all duration-700 bg-white border-2 border-slate-100 p-8 rounded-[2.5rem] shadow-xl;
+  }
+  .data-fragment.show { @apply opacity-100 translate-y-0; }
+  .theme-gaming .data-fragment { @apply bg-slate-800 border-slate-700 text-slate-100; }
+  .theme-sensitive .data-fragment { @apply bg-red-950 border-red-900 text-red-100; }
+
+  .particle { position: absolute; border-radius: 50%; pointer-events: none; z-index: -1; }
+
+  .keep-all { word-break: keep-all; }
+
+  html.dark body { background-color: #0f172a; color: #f8fafc; }
+  html.dark nav { border-color: rgba(148,163,184,0.25) !important; }
+  html.dark footer { border-color: rgba(148,163,184,0.25) !important; }
+  html.dark .data-fragment { background-color: #1e293b !important; border-color: #334155 !important; color: #f8fafc !important; }
+  html.dark .morph-input { border-color: #e2e8f0 !important; color: #f8fafc !important; }
+  html.dark .morph-input::placeholder { color: rgba(226,232,240,0.45); }
+
+  html.dark #header-actions button { color: #ffffff; }
+  html.dark #header-actions button.bg-slate-900,
+  html.dark #header-actions button.dark\:bg-slate-800 { color: #ffffff; }
+
+  html.dark #mobile-menu { background-color: #020617 !important; color: #f8fafc !important; }
+  html.dark #mobile-menu a { color: #f8fafc !important; }
+  html.dark #mobile-menu .border-b { border-color: rgba(148,163,184,0.25) !important; }
+  html.dark #mobile-menu button { color: #f8fafc; }
+}
