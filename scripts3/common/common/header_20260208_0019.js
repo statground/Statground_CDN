@@ -122,11 +122,10 @@ const __SG_DEFAULT_MENU_HTML = `<nav class="w-full px-6 py-4 flex justify-betwee
   </div>`;
 
 async function set_header() {
-  //const MENU_HTML = (await __sgLoadText('./partials/header.html')) ?? __SG_DEFAULT_MENU_HTML;
   const menu = document.getElementById('div_menu');
-  //if (menu) menu.innerHTML = MENU_HTML;
+  if (menu) menu.innerHTML = __SG_DEFAULT_MENU_HTML;
 
-  try { window.sg_init_mobile_menu && window.sg_init_mobile_menu(); } catch (e) { console.warn(e); }
-  try { window.sg_init_theme && window.sg_init_theme(); } catch (e) { console.warn(e); }
-  try { window.sg_init_i18n && window.sg_init_i18n(); } catch (e) { console.warn(e); }
+  try { window.sg_init_mobile_menu && window.sg_init_mobile_menu(); } catch (e) {}
+  try { window.sg_init_theme && window.sg_init_theme(); } catch (e) {}
+  try { window.sg_init_i18n && window.sg_init_i18n(); } catch (e) {}
 }
