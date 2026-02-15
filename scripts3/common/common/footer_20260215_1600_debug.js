@@ -7,7 +7,7 @@ const __SG_DEFAULT_FOOTER_HTML = `<footer class="w-full px-6 py-4 border-t borde
       <div class="flex flex-wrap items-center justify-between gap-y-2">
         <div class="flex flex-wrap gap-x-5 gap-y-2 font-medium">
           <a href="/intro/" class="hover:underline"><span data-i18n="footer.about">통계마당 소개</span></a>
-		  <a href="https://www.web-r.org" class="hover:underline"><span data-i18n="footer.about">Web-R</span></a>
+		  <a href="https://www.web-r.org" class="hover:underline" target="_blank"><span data-i18n="footer.webr">Web-R</span></a>
         </div>
         <!-- 개발중: 개인정보처리방침/이용약관 링크 숨김 -->
         <!--
