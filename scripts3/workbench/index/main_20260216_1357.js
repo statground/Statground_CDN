@@ -3,9 +3,13 @@
  * - Workbench main (React, Babel)
  * - Depends on window.sg_workbench_i18n (loaded before this file)
  *
+ * Behavior (Statground lang-prefix routing):
+ * - URL prefix (/<lang>/...) is the SSOT when user directly navigates by URL.
+ * - Language modal changes localStorage('sg_lang'); this script detects it and redirects by updating URL prefix.
+ *
  * Fixes:
- * 1) Language change now updates BOTH UI text and URL prefix (/<lang>/...)
- * 2) Robust language detection: localStorage('sg_lang') -> URL prefix -> <html lang> -> 'en'
+ * 1) Direct navigation to /en/... stays in en (no forced redirect to stored ko)
+ * 2) Modal language change updates BOTH UI text and URL prefix
  * 3) Dark mode CTA readability: always high-contrast (bg-slate-900 text-white)
  */
 
@@ -18,8 +22,7 @@ function set_main() {
   const getAllowedLangSet = () => {
     try {
       const arr = (WB && Array.isArray(WB.languages)) ? WB.languages : [];
-      const set = new Set(arr.map(x => x && x.code).filter(Boolean));
-      return set;
+      return new Set(arr.map(x => x && x.code).filter(Boolean));
     } catch (e) {
       return new Set();
     }
@@ -27,43 +30,43 @@ function set_main() {
 
   const ALLOW = getAllowedLangSet();
 
-  const getUrlPrefixLang = () => {
-    const seg = (location.pathname || "/").split("/").filter(Boolean);
-    const maybe = seg[0] || null;
-    if (!maybe) return null;
-    if (ALLOW.size > 0) return ALLOW.has(maybe) ? maybe : null;
-    return maybe;
-  };
-
   const resolve = (code) => {
     if (WB && typeof WB.resolveLangCode === "function") return WB.resolveLangCode(code);
     return code;
   };
 
+  const getUrlPrefixLang = () => {
+    const seg = (location.pathname || "/").split("/").filter(Boolean);
+    const maybe = seg[0] || null;
+    if (!maybe) return null;
+    const v = resolve(maybe);
+    if (ALLOW.size > 0) return ALLOW.has(v) ? v : null;
+    return v;
+  };
+
+  const getStorageLang = () => {
+    try {
+      const v = localStorage.getItem("sg_lang");
+      return v ? resolve(v) : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // ✅ Priority: URL prefix -> localStorage -> <html lang> -> 'en'
   const getLang = () => {
-    const fromStorage = (() => {
-      try {
-        const v = localStorage.getItem("sg_lang");
-        return v ? v : null;
-      } catch (e) {
-        return null;
-      }
-    })();
-
     const fromPath = getUrlPrefixLang();
-
+    const fromStorage = getStorageLang();
     const fromHtml = (() => {
       try {
-        return document.documentElement.getAttribute("lang") || null;
+        const v = document.documentElement.getAttribute("lang");
+        return v ? resolve(v) : null;
       } catch (e) {
         return null;
       }
     })();
 
-    const raw = fromStorage || fromPath || fromHtml || "en";
-    const lang = resolve(raw);
-
-    // normalize to known language if we have allow-list
+    const lang = fromPath || fromStorage || fromHtml || "en";
     if (ALLOW.size > 0 && !ALLOW.has(lang)) return "en";
     return lang;
   };
@@ -77,7 +80,6 @@ function set_main() {
     const seg = (location.pathname || "/").split("/").filter(Boolean);
     if (seg.length === 0) return;
 
-    // If first segment is not a known lang, we still replace it (Statground uses /<lang>/...)
     seg[0] = newLang;
 
     const next = "/" + seg.join("/") + (location.search || "") + (location.hash || "");
@@ -136,14 +138,13 @@ function set_main() {
   const App = () => {
     const [lang, setLang] = React.useState(getLang());
 
-    // When app mounts, if storage lang differs from URL prefix, sync URL (optional but consistent)
+    // ✅ On mount: if URL prefix exists, make storage follow URL (no redirect!)
     React.useEffect(() => {
       const prefix = getUrlPrefixLang();
-      if (prefix && prefix !== lang) {
-        // Route is prefix-based, so URL should follow selected language
-        applyLangToUrl(lang);
+      if (prefix) {
+        try { localStorage.setItem("sg_lang", prefix); } catch (e) {}
+        setLang(prefix);
       }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // RTL support
@@ -164,7 +165,7 @@ function set_main() {
       const onClick = () => setTimeout(apply, 0);
       if (list) list.addEventListener("click", onClick);
 
-      // 2) Poll as a reliable fallback (same-tab localStorage changes won't always fire 'storage')
+      // 2) Poll as reliable fallback (same-tab localStorage changes won't always fire 'storage')
       const timer = setInterval(apply, 400);
 
       // 3) Listen storage (other tabs)
@@ -181,7 +182,7 @@ function set_main() {
       };
     }, []);
 
-    // IMPORTANT: if lang changes and URL prefix differs, redirect so routing matches
+    // ✅ If lang changes (typically via modal), redirect URL prefix to match routing
     React.useEffect(() => {
       const prefix = getUrlPrefixLang();
       if (prefix && prefix !== lang) {
