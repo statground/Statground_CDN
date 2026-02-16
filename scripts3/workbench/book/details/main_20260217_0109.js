@@ -210,7 +210,11 @@ box.innerHTML = `<div class="text-sm text-slate-600 dark:text-slate-300">${esc(t
 
     const coverUrl = (book.cover_url || "").trim();
     const title = esc(book.title || "제목 없음");
-    const author = esc(book.author || "-");
+    const authorRaw = (book.author || "").trim();
+    const authorFormatted = authorRaw
+      ? authorRaw.split("^").map(s => s.trim()).filter(Boolean).join(", ")
+      : "-";
+    const author = esc(authorFormatted);
     const publisher = esc(book.publisher || "-");
     const pubdate = esc(formatPubdate(book.pubdate || "-"));
     const isbnRaw = esc(book.isbn_raw || isbn);
@@ -250,7 +254,7 @@ box.innerHTML = `<div class="text-sm text-slate-600 dark:text-slate-300">${esc(t
 
     const marketplaces = [
       // 네이버는 raw_naver의 book.link가 있으면 그 링크를 우선 사용
-      { name: "Naver", url: (link && link.length > 0) ? link : `https://search.shopping.naver.com/book/search?query=${qIsbn}` },
+      { name: "NAVER", url: (link && link.length > 0) ? link : `https://search.shopping.naver.com/book/search?query=${qIsbn}` },
 
       { name: "영풍문고", url: `https://www.ypbooks.co.kr/search/book?word=${qIsbn}` },
       { name: "교보문고", url: `https://search.kyobobook.co.kr/search?keyword=${qIsbn}&gbCode=TOT&target=total` },
@@ -259,11 +263,26 @@ box.innerHTML = `<div class="text-sm text-slate-600 dark:text-slate-300">${esc(t
 
       // 아래는 ISBN 검색이 불안정하므로 '책 제목' 키워드로 검색
       { name: "Google Books", url: `https://www.google.com/search?udm=36&q=${qTitle}` },
-      { name: "LoC", url: `https://www.loc.gov/search/?in=&q=${qTitle}&new=true` },
-      { name: "Open Library", url: `https://openlibrary.org/search?q=${qTitle}&mode=everything` },
+      // { name: "LoC", url: `https://www.loc.gov/search/?in=&q=${qTitle}&new=true` }, // hidden
+      // { name: "Open Library", url: `https://openlibrary.org/search?q=${qTitle}&mode=everything` }, // hidden
     ];
+    
+    // ── Randomize all marketplaces (including NAVER)
+    const shuffleInPlace = (arr) => {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+      }
+      return arr;
+    };
 
-    const marketplaceCardsHtml = marketplaces
+    const marketplacesView = shuffleInPlace([...marketplaces]);
+
+
+
+    const marketplaceCardsHtml = marketplacesView
       .filter(m => m && m.url)
       .map(m => {
         const logo = getMarketplaceLogo(m.name);
@@ -370,7 +389,7 @@ box.innerHTML = `<div class="text-sm text-slate-600 dark:text-slate-300">${esc(t
   let currentLang = routeLang;
   render(book, currentLang);
 
-    await loadShotalk(currentLang);
+    setTimeout(() => { try { loadShotalk(currentLang); } catch (_) {} }, 0);
 
 // ---------------- explicit language change handling ----------------
   const watchedKeys = new Set(["lang", "sg_lang", "statground_lang", "site_lang", "language", "wb_lang"]);
