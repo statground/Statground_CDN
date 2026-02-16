@@ -51,64 +51,82 @@ async function set_main() {
     const box = document.getElementById("sg_shotalk_box");
     if (!box) return;
 
-    
-    const _blockedCp = new Set(["롯데홈쇼핑","보리보리","G마켓"]);
-    items = (items || []).filter(it => {
-      const name = (it && it.cp_name) ? String(it.cp_name).trim() : "";
-      return name && !_blockedCp.has(name);
-    
+    const rawItems = items || [];
 
-    const _hasCoupang = (items || []).some(it => {
+    // ✅ '쿠팡' 포함 여부(문구 출력용) — 필터링 전 기준
+    const hasCoupang = rawItems.some(it => {
       const name = (it && it.cp_name) ? String(it.cp_name).trim() : "";
       return name.includes("쿠팡");
     });
 
-    const _toPriceInt = (v) => {
+    // ✅ 제외 대상 (요청: 보리보리, G마켓, 롯데홈쇼핑)
+    const blockedCp = new Set(["롯데홈쇼핑", "보리보리", "G마켓"]);
+
+    // ✅ 표시용 아이템 필터링
+    let viewItems = rawItems.filter(it => {
+      const name = (it && it.cp_name) ? String(it.cp_name).trim() : "";
+      return name && !blockedCp.has(name);
+    });
+
+    // ✅ 가격 오름차순 정렬 (낮은 → 높은)
+    const toPriceInt = (v) => {
       const s = (v === null || v === undefined) ? "" : String(v);
       const d = s.replace(/[^0-9]/g, "");
       return d ? parseInt(d, 10) : 0;
     };
+    viewItems = viewItems.slice().sort((a, b) => toPriceInt(a.price) - toPriceInt(b.price));
 
-    // 가격 오름차순 정렬 (낮은 -> 높은)
-    items = (items || []).slice().sort((a, b) => _toPriceInt(a.price) - _toPriceInt(b.price));
-});
-if (!items || items.length === 0) {
-      box.innerHTML = `<div class="text-sm text-slate-500 dark:text-slate-400">${esc(t(uiLang, "wb.book.details.aff_none"))}</div>`;
+    if (!viewItems || viewItems.length === 0) {
+      box.innerHTML = `
+        <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${esc(t(uiLang, "wb.book.details.aff_title"))}</div>
+        <div class="text-sm text-slate-500 dark:text-slate-400">${esc(t(uiLang, "wb.book.details.aff_none"))}</div>
+      `;
       return;
     }
 
-    const cards = items.map(it => {
+    const cards = viewItems.slice(0, 9).map(it => {
       const title = esc(it.title || "");
-      const cpName = esc(it.cp_name || it.cp_code || "");
-      const price = fmtPrice(it.price || 0);
-      const link = esc(it.commission_link || "#");
+      const priceNum = toPriceInt(it.price);
       const photo = esc(it.photo_url || "");
-      const icon = esc(it.cp_icon_url || "");
+      const cpName = esc(it.cp_name || "");
+      const cpIcon = esc(it.cp_icon_url || "");
+      const link = esc(it.commission_link || "");
+
       return `
-        <a href="${link}" target="_blank" rel="noopener"
-           class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition p-3 flex gap-3">
-          <div class="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0">
-            ${photo ? `<img src="${photo}" alt="${title}" class="w-full h-full object-cover" onerror="this.style.display='none';" />` : ``}
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="text-sm font-extrabold text-slate-900 dark:text-white leading-snug line-clamp-2">${title}</div>
-            <div class="mt-2 flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
-              ${icon ? `<img src="${icon}" alt="${cpName}" class="w-4 h-4 rounded-sm object-contain" onerror="this.style.display='none';" />` : ``}
-              <span class="font-semibold">${cpName}</span>
-              <span class="text-slate-300 dark:text-slate-600">|</span>
-              <span class="font-extrabold text-slate-900 dark:text-white">${esc(price)}</span>
+        <a href="${link}" target="_blank" rel="noopener" class="block rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 hover:shadow-sm transition">
+          <div class="flex gap-3">
+            <div class="w-16 h-16 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden flex items-center justify-center">
+              ${photo ? `<img src="${photo}" alt="" class="w-full h-full object-cover" />` : `<div class="w-full h-full"></div>`}
             </div>
-          </div>
-          <div class="self-center px-2 py-1 text-xs font-semibold rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-900">
-            ${esc(t(uiLang, "wb.book.details.open"))}
+
+            <div class="min-w-0 flex-1">
+              <div class="text-sm font-semibold text-slate-900 dark:text-white line-clamp-2">${title}</div>
+
+              <div class="mt-2 flex items-center gap-2">
+                ${cpIcon ? `<img src="${cpIcon}" alt="" class="w-4 h-4 rounded" />` : ``}
+                <div class="text-xs text-slate-600 dark:text-slate-300">${cpName}</div>
+              </div>
+
+              <div class="mt-2 text-sm font-bold text-slate-900 dark:text-white">${priceNum ? `${priceNum.toLocaleString("ko-KR")}원` : ""}</div>
+            </div>
+
+            <div class="self-center">
+              <span class="inline-flex items-center justify-center px-3 py-1 rounded-md bg-slate-900 text-white text-xs">바로가기</span>
+            </div>
           </div>
         </a>
       `;
     }).join("");
 
+    const disclaimerText = '본 사이트의 일부 콘텐츠에는 제휴 링크가 포함될 수 있습니다. 해당 링크를 통해 구매가 이루어질 경우, 사이트 운영에 도움이 되는 소정의 수수료를 받을 수 있습니다.';
+    const disclaimerHtml = hasCoupang
+      ? `<div class="text-sm text-slate-900 dark:text-white font-semibold text-center mb-4">${esc(disclaimerText)}</div>`
+      : "";
+
     box.innerHTML = `
       <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${esc(t(uiLang, "wb.book.details.aff_title"))}</div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      ${disclaimerHtml}
+      <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
         ${cards}
       </div>
     `;
