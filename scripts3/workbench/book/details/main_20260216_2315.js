@@ -34,6 +34,139 @@ async function set_main() {
     return s;
   });
 
+
+  async function fetchShotalkMarketplace() {
+    const url = `/${routeLang}/workbench/book/ajax_shotalk_marketplace/?isbn=${encodeURIComponent(isbn)}`;
+    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
+    return await res.json();
+  }
+
+  function fmtPrice(n) {
+    const v = Number(n || 0);
+    try { return new Intl.NumberFormat(undefined).format(v) + "원"; }
+    catch (_) { return String(v) + "원"; }
+  }
+
+  function renderShotalk(items, uiLang) {
+    const box = document.getElementById("sg_shotalk_box");
+
+  const _blockedCp = new Set(["롯데홈쇼핑","보리보리","쿠팡"]);
+  const filtered = (items || []).filter(it => {
+    const name = (it && (it.cp_name || it.cpName || it.cp_name)) ? String(it.cp_name || it.cpName).trim() : "";
+    return name && !_blockedCp.has(name);
+  });
+
+  items = filtered;
+    if (!box) return;
+
+    if (!items || items.length === 0) {
+    box.innerHTML = `
+      <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${esc(t(uiLang, "wb.book.details.aff_title"))}</div>
+      <div class="text-sm text-slate-500 dark:text-slate-400">${esc(t(uiLang, "wb.book.details.aff_none"))}</div>
+    `;
+    return;
+  }
+
+    const cards = items.map(it => {
+      const title = esc(it.title || "");
+      const cpName = esc(it.cp_name || it.cp_code || "");
+      const price = fmtPrice(it.price || 0);
+      const link = esc(it.commission_link || "#");
+      const photo = esc(it.photo_url || "");
+      const icon = esc(it.cp_icon_url || "");
+      return `
+        <a href="${link}" target="_blank" rel="noopener"
+           class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition p-3 flex gap-3">
+          <div class="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0">
+            ${photo ? `<img src="${photo}" alt="${title}" class="w-full h-full object-cover" onerror="this.style.display='none';" />` : ``}
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="text-sm font-extrabold text-slate-900 dark:text-white leading-snug line-clamp-2">${title}</div>
+            <div class="mt-2 flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
+              ${icon ? `<img src="${icon}" alt="${cpName}" class="w-4 h-4 rounded-sm object-contain" onerror="this.style.display='none';" />` : ``}
+              <span class="font-semibold">${cpName}</span>
+              <span class="text-slate-300 dark:text-slate-600">|</span>
+              <span class="font-extrabold text-slate-900 dark:text-white">${esc(price)}</span>
+            </div>
+          </div>
+          <div class="self-center px-2 py-1 text-xs font-semibold rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+            ${esc(t(uiLang, "wb.book.details.open"))}
+          </div>
+        </a>
+      `;
+    }).join("");
+
+    box.innerHTML = `
+      <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${esc(t(uiLang, "wb.book.details.aff_title"))}</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        ${cards}
+      </div>
+    `;
+  }
+
+  
+  function renderShotalkSkeleton(uiLang) {
+    const box = document.getElementById("sg_shotalk_box");
+    if (!box) return;
+
+    const sk = Array.from({ length: 4 }).map(() => `
+      <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 flex gap-3 animate-pulse">
+        <div class="w-16 h-16 rounded-lg bg-slate-200 dark:bg-slate-800 shrink-0"></div>
+        <div class="min-w-0 flex-1">
+          <div class="h-4 w-4/5 bg-slate-200 dark:bg-slate-800 rounded"></div>
+          <div class="mt-2 h-3 w-2/3 bg-slate-200 dark:bg-slate-800 rounded"></div>
+          <div class="mt-3 h-3 w-1/2 bg-slate-200 dark:bg-slate-800 rounded"></div>
+        </div>
+        <div class="self-center h-7 w-14 bg-slate-200 dark:bg-slate-800 rounded-md"></div>
+      </div>
+    `).join("");
+
+    box.innerHTML = `
+      <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${esc(t(uiLang, "wb.book.details.aff_title"))}</div>
+      <div class="text-sm text-slate-600 dark:text-slate-300 mb-3">${esc(t(uiLang, "wb.book.details.aff_loading"))}</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        ${sk}
+      </div>
+    `;
+  }
+
+async function loadShotalk(uiLang) {
+    const box = document.getElementById("sg_shotalk_box");
+    if (!box) return;
+        // Prevent repeated API calls (Shotalk rate limit). Cache by ISBN.
+    window.__WB_SHOTALK_CACHE__ = window.__WB_SHOTALK_CACHE__ || {};
+    const ckey = `isbn:${isbn}`;
+    if (window.__WB_SHOTALK_CACHE__[ckey]) {
+      renderShotalk(window.__WB_SHOTALK_CACHE__[ckey], uiLang);
+      return;
+    }
+
+    renderShotalkSkeleton(uiLang);
+
+try {
+      const j = await fetchShotalkMarketplace();
+      if (!j || !j.ok) {
+      const msg = (j && (j.error || j.message)) ? String(j.error || j.message) : "";
+      box.innerHTML = `
+        <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${esc(t(uiLang, "wb.book.details.aff_title"))}</div>
+        <div class="text-sm text-slate-500 dark:text-slate-400">${esc(t(uiLang, "wb.book.details.aff_none"))}${msg ? ` <span class="opacity-60">(${esc(msg)})</span>` : ""}</div>
+      `;
+      window.__WB_SHOTALK_CACHE__[ckey] = [];
+      return;
+    }
+            const matches = j.matches || [];
+      window.__WB_SHOTALK_CACHE__[ckey] = matches;
+      renderShotalk(matches, uiLang);
+    } catch (e) {
+    const msg = e ? String(e) : "";
+    box.innerHTML = `
+      <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${esc(t(uiLang, "wb.book.details.aff_title"))}</div>
+      <div class="text-sm text-slate-500 dark:text-slate-400">${esc(t(uiLang, "wb.book.details.aff_none"))}${msg ? ` <span class="opacity-60">(${esc(msg)})</span>` : ""}</div>
+    `;
+    window.__WB_SHOTALK_CACHE__[ckey] = [];
+  }
+  }
+
   async function fetchDetail() {
     const url = `/${routeLang}/workbench/book/ajax_detail_raw_naver/?isbn=${encodeURIComponent(isbn)}`;
     const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
@@ -206,13 +339,22 @@ async function set_main() {
               <div class="mt-8">
                 <div class="text-base font-bold text-slate-900 dark:text-white mb-3">${labelMarketplace}</div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                   ${marketplaceCardsHtml}
-                </div>
+
+</div>
+
+                
+
 
                 <div class="mt-8 flex justify-center">
                   <a href="#" target="_blank" rel="noopener">
-                    <img src="https://cdn.jsdelivr.net/gh/statground/Statground_CDN/images/common/affiliates/adpick.png"
+                    
+<div class="mt-10">
+  <div id="sg_shotalk_box"></div>
+</div>
+
+<img src="https://cdn.jsdelivr.net/gh/statground/Statground_CDN/images/common/affiliates/adpick.png"
                          alt="Adpick" class="w-[125px] h-[125px] object-contain" />
                   </a>
                 </div>
@@ -242,7 +384,15 @@ async function set_main() {
   let currentLang = routeLang;
   render(book, currentLang);
 
-  // ---------------- explicit language change handling ----------------
+  // Shotalk 호출은 화면 렌더링/페인트 이후(체감속도 개선)
+  const _deferShotalk = () => loadShotalk(currentLang);
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(_deferShotalk, { timeout: 1500 });
+  } else {
+    setTimeout(_deferShotalk, 0);
+  }
+
+// ---------------- explicit language change handling ----------------
   const watchedKeys = new Set(["lang", "sg_lang", "statground_lang", "site_lang", "language", "wb_lang"]);
   let lastUserGestureAt = 0;
 
@@ -257,6 +407,7 @@ async function set_main() {
     if (newLang === currentLang) return;
     currentLang = newLang;
     render(book, currentLang);
+    loadShotalk(currentLang);
   }
 
   // 1) Custom event from language modal (recommended)
