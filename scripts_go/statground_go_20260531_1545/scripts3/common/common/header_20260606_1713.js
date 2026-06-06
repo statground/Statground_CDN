@@ -3,8 +3,7 @@
  * - Statground Go header/menu HTML injection and interaction wiring.
  */
 (function () {
-  const LOGO_PATH = "assets3/images/logo/statistical_ground_logo_20260606_1644.png";
-  const HEADER_SCRIPT_SRC = document.currentScript && document.currentScript.src ? document.currentScript.src : "";
+  const LOGO_URL = "https://cdn.jsdelivr.net/gh/statground/Common_CDN@61734f918460833a5e9d2ebca77b6a3f2fa8fc98/images/logo/logo_reg.png";
 
   const LABELS = {
     ko: {
@@ -100,26 +99,6 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
-  }
-
-  function statgroundCDNRoot() {
-    const sources = [HEADER_SCRIPT_SRC];
-    if (!HEADER_SCRIPT_SRC) {
-      Array.prototype.slice.call(document.scripts || []).forEach(function (script) {
-        if (script && script.src) sources.push(script.src);
-      });
-    }
-    for (let i = 0; i < sources.length; i += 1) {
-      const src = String(sources[i] || "");
-      const markerIndex = src.indexOf("/scripts_go/");
-      if (markerIndex > -1) return src.slice(0, markerIndex);
-    }
-    return "";
-  }
-
-  function statgroundLogoURL() {
-    const root = statgroundCDNRoot().replace(/\/+$/, "");
-    return (root ? root + "/" : "/") + LOGO_PATH;
   }
 
   function langPath(path) {
@@ -287,7 +266,7 @@
       '<nav class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">',
       '<div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-6">',
       '<a href="/" class="flex min-w-0 items-center" aria-label="Statistical Ground home">',
-      `<img src="${esc(statgroundLogoURL())}" alt="Statistical Ground" width="1654" height="245" class="h-9 w-auto max-w-[210px] object-contain sm:h-10 sm:max-w-[280px] lg:max-w-[320px]" loading="eager" decoding="async">`,
+      `<img src="${LOGO_URL}" alt="Statistical Ground" width="1655" height="245" class="h-9 w-auto max-w-[210px] object-contain sm:h-10 sm:max-w-[280px] lg:max-w-[320px]" loading="eager" decoding="async">`,
       '</a>',
       '<div class="hidden min-w-0 flex-1 items-center justify-end gap-2 md:flex">',
       '<a href="https://www.web-r.org" target="_blank" rel="noopener" class="rounded-lg px-3 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-slate-800">Web-R</a>',
@@ -318,7 +297,7 @@
       '<div id="mobile-menu" class="fixed inset-0 z-50 hidden overflow-y-auto bg-white text-slate-950 dark:bg-slate-950 dark:text-white md:hidden">',
       '<div class="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800">',
       '<a href="/" class="flex min-w-0 items-center" aria-label="Statistical Ground home">',
-      `<img src="${esc(statgroundLogoURL())}" alt="Statistical Ground" width="1654" height="245" class="h-8 w-auto max-w-[150px] object-contain sm:max-w-[220px]" loading="eager" decoding="async">`,
+      `<img src="${LOGO_URL}" alt="Statistical Ground" width="1655" height="245" class="h-8 w-auto max-w-[150px] object-contain sm:max-w-[220px]" loading="eager" decoding="async">`,
       '</a>',
       '<div class="flex items-center gap-2">',
       '<button id="mobile-theme-toggle" type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-700 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800" aria-label="' + esc(text("theme")) + '" title="' + esc(text("theme")) + '"><svg id="mobile-icon-moon" class="h-5 w-5 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-width="2" d="M12 3a7.5 7.5 0 0 0 9 9 9 9 0 1 1-9-9z"></path></svg><svg id="mobile-icon-sun" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke-width="2"></circle><path stroke-width="2" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg></button>',
