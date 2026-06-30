@@ -5,10 +5,11 @@
   let echartsPromise = null;
 
   function statgroundCDNBase() {
+    const assetRoot = "scripts_go/statground_go_20260531_1545/";
     const scriptURL = typeof document !== "undefined" && document.currentScript && document.currentScript.src ? document.currentScript.src : "";
-    const match = scriptURL.match(/gh\/statground\/Statground_CDN@([^/,]+)\//);
-    if (match) return "https://cdn.jsdelivr.net/gh/statground/Statground_CDN@" + match[1] + "/";
-    return "https://cdn.jsdelivr.net/gh/statground/Statground_CDN/";
+    const rootIndex = scriptURL.indexOf(assetRoot);
+    if (rootIndex >= 0) return scriptURL.slice(0, rootIndex);
+    return "/";
   }
 
   const STATGROUND_CDN = statgroundCDNBase();
