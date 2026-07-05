@@ -608,6 +608,14 @@
     return d[key] || dict.en[key] || dict.ko[key] || key;
   }
 
+  function tOptional(lang, key) {
+    const d = dict[displayLang(lang)] || dict[String(lang || "").slice(0, 2)] || dict.en;
+    if (d && Object.prototype.hasOwnProperty.call(d, key)) return d[key] || "";
+    if (Object.prototype.hasOwnProperty.call(dict.en, key)) return dict.en[key] || "";
+    if (Object.prototype.hasOwnProperty.call(dict.ko, key)) return dict.ko[key] || "";
+    return "";
+  }
+
   function number(value) {
     const n = Number(value || 0);
     if (!Number.isFinite(n)) return "";
@@ -1487,7 +1495,7 @@
   }
 
   function stageHeaderHTML(lang, titleKey, descKey, meta) {
-    const desc = descKey ? t(lang, descKey) : "";
+    const desc = descKey ? tOptional(lang, descKey) : "";
     return [
       '<div class="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">',
       '<div class="min-w-0">',
