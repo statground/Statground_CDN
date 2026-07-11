@@ -1,5 +1,5 @@
 (function () {
-  const ECHARTS_URL = "/_statground/assets/npm/echarts/5.5.1/dist/echarts.min.js";
+  const ECHARTS_ASSET = "vendor/echarts/echarts_6_0_0_20260711_1600.min.js";
   const watchKey = "statground_shopping_watchlist_v1";
   const productViewKey = "statground_shopping_product_view_v1";
   const chartRegistry = {};
@@ -16,6 +16,7 @@
   }
 
   const STATGROUND_CDN = statgroundCDNBase();
+  const ECHARTS_URL = STATGROUND_CDN + ECHARTS_ASSET;
   const ADPICK_LOGO_URL = STATGROUND_CDN + "images/common/affiliates/adpick.png";
   const providerLogos = {
     gmarket: STATGROUND_CDN + "images/workbench/shopping/gmarket_logo_20260629_1333.svg",
