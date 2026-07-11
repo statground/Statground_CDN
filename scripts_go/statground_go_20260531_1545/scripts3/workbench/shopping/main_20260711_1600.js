@@ -5999,8 +5999,17 @@
     const radarURL = apiURL(lang, "ajax_radar_gmarket", coreParams);
     const radarDetailsURL = apiURL(lang, "ajax_radar_gmarket", detailParams);
     const early = window.__statgroundShoppingRadarEarlyFetch;
+    function usableRadarResponse(res) {
+      return !!(res && res.ok && res.json && res.json.ok && !res.json.degraded && res.json.radar);
+    }
     function loadRadar() {
-      return fetchJSONWithRetry(radarURL, 3);
+      function attempt(index) {
+        return fetchJSONWithRetry(radarURL, 1).then(function (res) {
+          if (usableRadarResponse(res) || index >= 2) return res;
+          return delay(250 * (index + 1)).then(function () { return attempt(index + 1); });
+        });
+      }
+      return attempt(0);
     }
     function loadRadarDetails() {
       return fetchJSONWithRetry(radarDetailsURL, 2).then(function (res) {
@@ -6013,7 +6022,7 @@
       }).catch(function () {});
     }
     function showCoreThenDetails(res) {
-      if (!res || !res.ok) {
+      if (!usableRadarResponse(res)) {
         showError();
         return;
       }
@@ -6022,7 +6031,7 @@
     }
     if (early && early.url === radarURL && early.promise) {
       early.promise
-        .then((res) => res && res.ok ? res : loadRadar())
+        .then((res) => usableRadarResponse(res) ? res : loadRadar())
         .then(showCoreThenDetails)
         .catch(function () { loadRadar().then(showCoreThenDetails).catch(showError); });
     } else {
