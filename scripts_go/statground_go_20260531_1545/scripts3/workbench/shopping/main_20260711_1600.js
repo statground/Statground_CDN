@@ -1,5 +1,5 @@
 (function () {
-  const ECHARTS_ASSET = "vendor/echarts/echarts_6_0_0_20260711_1600.min.js";
+  const ECHARTS_ASSET = "scripts_go/statground_go_20260531_1545/vendor/echarts/echarts_6_0_0_20260711_1600.min.js";
   const watchKey = "statground_shopping_watchlist_v1";
   const productViewKey = "statground_shopping_product_view_v1";
   const chartRegistry = {};
