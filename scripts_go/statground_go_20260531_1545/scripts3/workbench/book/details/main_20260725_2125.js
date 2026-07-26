@@ -132,7 +132,7 @@ async function set_main() {
   });
 
   async function fetchDetail() {
-    const url = `/${routeLang}/workbench/book/ajax_detail_raw_naver/?isbn=${encodeURIComponent(isbn)}`;
+    const url = `/${routeLang}/workbench/book/ajax_detail/?isbn=${encodeURIComponent(isbn)}`;
     const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
     return await res.json();
   }

@@ -8,7 +8,7 @@
   const PATCH = {
   "ar": {
     "wb.book.details.back": "العودة إلى البحث",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "المؤلف",
     "wb.book.details.publisher": "الناشر",
     "wb.book.details.pubdate": "تاريخ النشر",
@@ -27,7 +27,7 @@
   },
   "de": {
     "wb.book.details.back": "Zurück zur Suche",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Autor",
     "wb.book.details.publisher": "Verlag",
     "wb.book.details.pubdate": "Erscheinungsdatum",
@@ -46,7 +46,7 @@
   },
   "en": {
     "wb.book.details.back": "Back to search",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Author",
     "wb.book.details.publisher": "Publisher",
     "wb.book.details.pubdate": "Published",
@@ -65,7 +65,7 @@
   },
   "es": {
     "wb.book.details.back": "Volver a la búsqueda",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Autor",
     "wb.book.details.publisher": "Editorial",
     "wb.book.details.pubdate": "Fecha de publicación",
@@ -84,7 +84,7 @@
   },
   "fil": {
     "wb.book.details.back": "Bumalik sa search",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "May-akda",
     "wb.book.details.publisher": "Publisher",
     "wb.book.details.pubdate": "Petsa ng paglabas",
@@ -103,7 +103,7 @@
   },
   "fr": {
     "wb.book.details.back": "Retour à la recherche",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Auteur",
     "wb.book.details.publisher": "Éditeur",
     "wb.book.details.pubdate": "Date de publication",
@@ -122,7 +122,7 @@
   },
   "hi": {
     "wb.book.details.back": "खोज पर वापस जाएँ",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "लेखक",
     "wb.book.details.publisher": "प्रकाशक",
     "wb.book.details.pubdate": "प्रकाशन तिथि",
@@ -141,7 +141,7 @@
   },
   "id": {
     "wb.book.details.back": "Kembali ke pencarian",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Penulis",
     "wb.book.details.publisher": "Penerbit",
     "wb.book.details.pubdate": "Tanggal terbit",
@@ -160,7 +160,7 @@
   },
   "it": {
     "wb.book.details.back": "Torna alla ricerca",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Autore",
     "wb.book.details.publisher": "Editore",
     "wb.book.details.pubdate": "Data di pubblicazione",
@@ -179,7 +179,7 @@
   },
   "ja": {
     "wb.book.details.back": "検索に戻る",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "著者",
     "wb.book.details.publisher": "出版社",
     "wb.book.details.pubdate": "刊行日",
@@ -198,7 +198,7 @@
   },
   "ko": {
     "wb.book.details.back": "검색으로 돌아가기",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "저자",
     "wb.book.details.publisher": "출판사",
     "wb.book.details.pubdate": "출간일",
@@ -217,7 +217,7 @@
   },
   "ms": {
     "wb.book.details.back": "Kembali ke carian",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Pengarang",
     "wb.book.details.publisher": "Penerbit",
     "wb.book.details.pubdate": "Tarikh terbit",
@@ -236,7 +236,7 @@
   },
   "nl": {
     "wb.book.details.back": "Terug naar zoeken",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Auteur",
     "wb.book.details.publisher": "Uitgever",
     "wb.book.details.pubdate": "Publicatiedatum",
@@ -255,7 +255,7 @@
   },
   "pl": {
     "wb.book.details.back": "Wróć do wyszukiwania",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Autor",
     "wb.book.details.publisher": "Wydawca",
     "wb.book.details.pubdate": "Data publikacji",
@@ -274,7 +274,7 @@
   },
   "pt-BR": {
     "wb.book.details.back": "Voltar para a busca",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Autor",
     "wb.book.details.publisher": "Editora",
     "wb.book.details.pubdate": "Data de publicação",
@@ -293,7 +293,7 @@
   },
   "ru": {
     "wb.book.details.back": "Назад к поиску",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Автор",
     "wb.book.details.publisher": "Издательство",
     "wb.book.details.pubdate": "Дата публикации",
@@ -312,7 +312,7 @@
   },
   "sv": {
     "wb.book.details.back": "Tillbaka till sök",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Författare",
     "wb.book.details.publisher": "Förlag",
     "wb.book.details.pubdate": "Utgivningsdatum",
@@ -331,7 +331,7 @@
   },
   "th": {
     "wb.book.details.back": "กลับไปที่การค้นหา",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "ผู้เขียน",
     "wb.book.details.publisher": "สำนักพิมพ์",
     "wb.book.details.pubdate": "วันที่พิมพ์",
@@ -350,7 +350,7 @@
   },
   "tr": {
     "wb.book.details.back": "Aramaya geri dön",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Yazar",
     "wb.book.details.publisher": "Yayınevi",
     "wb.book.details.pubdate": "Yayın tarihi",
@@ -369,7 +369,7 @@
   },
   "uk": {
     "wb.book.details.back": "Повернутися до пошуку",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Автор",
     "wb.book.details.publisher": "Видавництво",
     "wb.book.details.pubdate": "Дата публікації",
@@ -388,7 +388,7 @@
   },
   "vi": {
     "wb.book.details.back": "Quay lại tìm kiếm",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "Tác giả",
     "wb.book.details.publisher": "Nhà xuất bản",
     "wb.book.details.pubdate": "Ngày xuất bản",
@@ -407,7 +407,7 @@
   },
   "zh-Hans": {
     "wb.book.details.back": "返回搜索",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "作者",
     "wb.book.details.publisher": "出版社",
     "wb.book.details.pubdate": "出版日期",
@@ -426,7 +426,7 @@
   },
   "zh-Hant": {
     "wb.book.details.back": "返回搜尋",
-    "wb.book.details.source": "ClickHouse: statground_book.raw_naver",
+    "wb.book.details.source": "Integrated book catalog",
     "wb.book.details.author": "作者",
     "wb.book.details.publisher": "出版社",
     "wb.book.details.pubdate": "出版日期",

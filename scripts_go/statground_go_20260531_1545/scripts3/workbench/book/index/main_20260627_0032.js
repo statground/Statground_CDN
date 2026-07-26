@@ -273,8 +273,8 @@
 
       const backHref = `/${lang}/workbench/`;
       const limit = isDesktop ? 12 : 3;
-      const apiRecent = `/${lang}/workbench/book/ajax_recent_raw_naver/?limit=${limit}`;
-      const apiSearch = `/${lang}/workbench/book/ajax_search_raw_naver/`;
+      const apiRecent = `/${lang}/workbench/book/ajax_recent/?limit=${limit}`;
+      const apiSearch = `/${lang}/workbench/book/ajax_search/`;
       const detailsBase = `/${lang}/workbench/book/details/`;
 
       const buildHref = (isbn) => {
@@ -556,7 +556,7 @@ React.createElement("div", { className: (hasSearched ? "hidden " : "") + "mt-10 
                           ) : null,
                           React.createElement("div", { className: "mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-400" },
                             b?.isbn ? React.createElement("span", null, t(lang, "wb.book.isbn", "ISBN"), ": ", b.isbn) : null,
-                            b?.created_at ? React.createElement("span", null, t(lang, "wb.book.collected", "Collected"), ": ", b.created_at) : null
+                            b?.collected_at ? React.createElement("span", null, t(lang, "wb.book.collected", "Collected"), ": ", b.collected_at) : null
                           )
                         )
                       );
