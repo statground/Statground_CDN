@@ -971,17 +971,14 @@
 
   function fetchJSON(url) {
     let target = url;
-    let body = "";
     try {
       const parsed = new URL(url, window.location.origin);
-      target = parsed.pathname;
-      body = parsed.searchParams.toString();
+      target = parsed.pathname + parsed.search;
     } catch (_) {}
     return fetch(target, {
-      method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-      credentials: "same-origin",
-      body: body
+      method: "GET",
+      headers: { Accept: "application/json" },
+      credentials: "same-origin"
     })
       .then((res) => res.text().then((text) => {
         let json = null;
@@ -5952,6 +5949,22 @@
     afterShoppingRender(lang, appEl);
   }
 
+  function renderInitialCategoryNavigation(lang) {
+    return [
+      '<section class="rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm" aria-label="' + esc(t(lang, "standardCategoriesLabel")) + '">',
+      '<div class="flex flex-wrap items-end justify-between gap-3">',
+      '<div><p class="text-xs font-black uppercase tracking-wider text-blue-700">Latest published batch</p><h2 class="mt-1 text-xl font-black text-slate-950">' + esc(t(lang, "standardCategoriesLabel")) + '</h2></div>',
+      '<span class="text-xs font-semibold text-slate-500">' + esc(t(lang, "selectCategoryInsight")) + '</span>',
+      '</div>',
+      '<nav class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">',
+      STANDARD_CATEGORIES.map(function (category) {
+        return '<a href="' + esc(categoryHref(lang, category)) + '" class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-400 hover:bg-blue-50 hover:text-blue-800">' + esc(category) + '</a>';
+      }).join(''),
+      '</nav>',
+      '</section>'
+    ].join('');
+  }
+
   function render(langOverride) {
     const root = document.getElementById("div_main");
     if (!root) return;
@@ -5970,7 +5983,7 @@
       '<span class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-bold text-slate-600"><img src="' + esc(providerLogos.gmarket) + '" alt="Gmarket" class="h-5 w-7 rounded object-contain"><img src="' + esc(providerLogos.kurly) + '" alt="Kurly" class="h-5 w-7 rounded object-contain">Derived metrics</span>',
       '</div>',
       '</div>',
-      '<div id="sg-shopping-app"><div class="rounded-lg border border-slate-200 bg-white p-5 text-sm text-slate-600 shadow-sm">' + esc(t(lang, "finding")) + '</div></div>',
+      '<div id="sg-shopping-app">' + renderInitialCategoryNavigation(lang) + '</div>',
       '<div class="mt-8 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">' + esc(t(lang, "notice")) + '</div>',
       '</div>',
       '</div>'
@@ -6005,7 +6018,7 @@
     function loadRadar() {
       function attempt(index) {
         return fetchJSONWithRetry(radarURL, 1).then(function (res) {
-          if (usableRadarResponse(res) || index >= 2) return res;
+          if (usableRadarResponse(res) || index >= 1) return res;
           return delay(250 * (index + 1)).then(function () { return attempt(index + 1); });
         });
       }
