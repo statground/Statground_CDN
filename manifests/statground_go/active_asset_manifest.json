@@ -4,8 +4,8 @@
   "source_repository": "statground/Statground_CDN",
   "source_commit": "b30e6affdfdb080d9976b155913a616c756ddbfe",
   "compiled_root": "scripts_go/statground_go_20260531_1545/",
-  "asset_count": 44,
-  "total_bytes": 2781602,
+  "asset_count": 43,
+  "total_bytes": 2776423,
   "assets": [
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/vendor/tailwind/statground_tailwind_20260822_2039.min.css",
@@ -31,7 +31,14 @@
       "dependencies": [],
       "order": 1,
       "consuming_routes": [
-        "/toolbox/graflume/"
+        "/toolbox/graflume/",
+        "/toolbox/graflume/quick-start/",
+        "/toolbox/graflume/playground/",
+        "/toolbox/graflume/charts/",
+        "/toolbox/graflume/guide/",
+        "/toolbox/graflume/api/",
+        "/toolbox/graflume/updates/",
+        "/toolbox/graflume/roadmap/"
       ],
       "fault_domain": "page"
     },
@@ -45,7 +52,14 @@
       "dependencies": [],
       "order": 2,
       "consuming_routes": [
-        "/toolbox/graflume/"
+        "/toolbox/graflume/",
+        "/toolbox/graflume/quick-start/",
+        "/toolbox/graflume/playground/",
+        "/toolbox/graflume/charts/",
+        "/toolbox/graflume/guide/",
+        "/toolbox/graflume/api/",
+        "/toolbox/graflume/updates/",
+        "/toolbox/graflume/roadmap/"
       ],
       "fault_domain": "page"
     },
@@ -380,22 +394,6 @@
       "fault_domain": "page"
     },
     {
-      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/documentation_20260822_2125.js",
-      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/documentation_20260822_2125.js",
-      "source_commit": "b30e6affdfdb080d9976b155913a616c756ddbfe",
-      "sha256": "636be8f389ed976c95abfc564b4370eba7f45e0fd07e9f6f5724144746a2d470",
-      "bytes": 5179,
-      "mime_type": "application/javascript",
-      "dependencies": [
-        "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js"
-      ],
-      "order": 26,
-      "consuming_routes": [
-        "/toolbox/graflume/"
-      ],
-      "fault_domain": "page"
-    },
-    {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/showcase_20260822_2039.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/showcase_20260822_2039.js",
       "source_commit": "b30e6affdfdb080d9976b155913a616c756ddbfe",
@@ -405,9 +403,9 @@
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js"
       ],
-      "order": 27,
+      "order": 26,
       "consuming_routes": [
-        "/toolbox/graflume/"
+        "/toolbox/graflume/playground/"
       ],
       "fault_domain": "page"
     },
@@ -423,7 +421,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/highlight_20260822_1631.css",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/boot_20260822_1631.js"
       ],
-      "order": 28,
+      "order": 27,
       "consuming_routes": [
         "/toolbox/solid-edit/"
       ],
@@ -440,7 +438,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js",
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/details/i18n_workbench_book_details_20260531_1545.js"
       ],
-      "order": 29,
+      "order": 28,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*"
@@ -460,7 +458,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js",
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/index/i18n_workbench_book_20260531_1545.js"
       ],
-      "order": 30,
+      "order": 29,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*"
@@ -475,7 +473,7 @@
       "bytes": 22345,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 31,
+      "order": 30,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*"
@@ -490,7 +488,7 @@
       "bytes": 7975,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 32,
+      "order": 31,
       "consuming_routes": [
         "/workbench/*",
         "/*/workbench/*"
@@ -507,7 +505,7 @@
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js"
       ],
-      "order": 33,
+      "order": 32,
       "consuming_routes": [
         "/workbench/lecture/*",
         "/*/workbench/lecture/*"
@@ -525,7 +523,7 @@
         "scripts_go/statground_go_20260531_1545/vendor/echarts/echarts_6_0_0_20260711_1600.min.js",
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js"
       ],
-      "order": 34,
+      "order": 33,
       "consuming_routes": [
         "/shopping/*",
         "/*/shopping/*"
@@ -540,7 +538,7 @@
       "bytes": 1150,
       "mime_type": "image/x-icon",
       "dependencies": [],
-      "order": 35,
+      "order": 34,
       "consuming_routes": [
         "*"
       ],
@@ -554,7 +552,7 @@
       "bytes": 16488,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 36,
+      "order": 35,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*",
@@ -573,7 +571,7 @@
       "bytes": 59402,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 37,
+      "order": 36,
       "consuming_routes": [
         "/data/*"
       ],
@@ -587,7 +585,7 @@
       "bytes": 63329,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 38,
+      "order": 37,
       "consuming_routes": [
         "/data/*"
       ],
@@ -601,7 +599,7 @@
       "bytes": 13475,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 39,
+      "order": 38,
       "consuming_routes": [
         "/data/*"
       ],
@@ -615,7 +613,7 @@
       "bytes": 3277,
       "mime_type": "image/svg+xml",
       "dependencies": [],
-      "order": 40,
+      "order": 39,
       "consuming_routes": [
         "/data/*"
       ],
@@ -629,7 +627,7 @@
       "bytes": 693,
       "mime_type": "image/svg+xml",
       "dependencies": [],
-      "order": 41,
+      "order": 40,
       "consuming_routes": [
         "/shopping/*",
         "/*/shopping/*"
@@ -644,7 +642,7 @@
       "bytes": 324,
       "mime_type": "image/svg+xml",
       "dependencies": [],
-      "order": 42,
+      "order": 41,
       "consuming_routes": [
         "/shopping/*",
         "/*/shopping/*"
@@ -659,7 +657,7 @@
       "bytes": 635538,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 43,
+      "order": 42,
       "consuming_routes": [
         "/ad/*"
       ],
