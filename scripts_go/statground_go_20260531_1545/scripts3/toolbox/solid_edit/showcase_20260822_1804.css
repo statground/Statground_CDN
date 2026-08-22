@@ -1,0 +1,12 @@
+[data-solid-edit-showcase] #solid-edit-demo-mount .lre-editor-shell > div:first-child {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (min-width: 1280px) {
+  [data-solid-edit-showcase] .solid-edit-demo-editor-pane {
+    border-bottom-width: 0;
+    border-inline-end-width: 1px;
+  }
+}
