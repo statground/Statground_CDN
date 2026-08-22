@@ -1,0 +1,63 @@
+.lre-root .hljs-comment,
+.lre-root .hljs-quote,
+.lre-root .tok-comment {
+  color: #64748b;
+}
+
+.lre-root .hljs-keyword,
+.lre-root .hljs-selector-tag,
+.lre-root .hljs-subst,
+.lre-root .tok-key,
+.lre-root .tok-tag {
+  color: #be123c;
+}
+
+.lre-root .hljs-number,
+.lre-root .hljs-literal,
+.lre-root .hljs-variable,
+.lre-root .hljs-template-variable,
+.lre-root .hljs-tag .hljs-attr,
+.lre-root .tok-number {
+  color: #7c3aed;
+}
+
+.lre-root .hljs-string,
+.lre-root .hljs-doctag,
+.lre-root .hljs-regexp,
+.lre-root .hljs-link,
+.lre-root .tok-string,
+.lre-root .tok-link {
+  color: #b45309;
+}
+
+.lre-root .hljs-title,
+.lre-root .hljs-section,
+.lre-root .hljs-selector-id,
+.lre-root .hljs-function .hljs-title,
+.lre-root .tok-title,
+.lre-root .tok-fn {
+  color: #be123c;
+}
+
+.lre-root .hljs-type,
+.lre-root .hljs-class .hljs-title,
+.lre-root .hljs-built_in,
+.lre-root .hljs-builtin-name,
+.lre-root .tok-type {
+  color: #4f46e5;
+}
+
+.lre-root .hljs-attribute,
+.lre-root .hljs-name,
+.lre-root .hljs-selector-attr,
+.lre-root .hljs-selector-class,
+.lre-root .tok-attr {
+  color: #1d4ed8;
+}
+
+.lre-root .hljs-symbol,
+.lre-root .hljs-bullet,
+.lre-root .hljs-meta,
+.lre-root .tok-bullet {
+  color: #0f766e;
+}
