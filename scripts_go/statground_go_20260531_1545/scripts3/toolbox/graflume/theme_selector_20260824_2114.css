@@ -1,0 +1,71 @@
+[data-graflume-theme-scope] .sg-graflume-theme-selector {
+  display: inline-flex;
+  max-width: 100%;
+  min-width: 0;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+[data-graflume-theme-scope] .sg-graflume-theme-selector-label {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  max-width: 100%;
+  min-width: 0;
+}
+
+[data-graflume-theme-scope] .sg-graflume-theme-selector-title {
+  flex: 0 0 auto;
+  color: #475569;
+}
+
+[data-graflume-theme-scope] .sg-graflume-theme-selector-input {
+  max-width: 100%;
+  min-width: 154px;
+  min-height: 44px;
+  margin: 0;
+  padding-block: 8px;
+  padding-inline: 12px;
+  color: #0f172a;
+  background-color: #fff;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.25;
+}
+
+[data-graflume-theme-scope]
+  .sg-graflume-theme-selector-input:hover:not(:disabled) {
+  border-color: #2563eb;
+}
+
+[data-graflume-theme-scope] .sg-graflume-theme-selector-input:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+[data-graflume-theme-scope] .sg-graflume-theme-selector-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 420px) {
+  [data-graflume-theme-scope] .sg-graflume-theme-selector,
+  [data-graflume-theme-scope] .sg-graflume-theme-selector-label,
+  [data-graflume-theme-scope] .sg-graflume-theme-selector-input {
+    width: 100%;
+  }
+}
+
+@media (forced-colors: active) {
+  [data-graflume-theme-scope] .sg-graflume-theme-selector-input {
+    border-color: CanvasText;
+  }
+
+  [data-graflume-theme-scope] .sg-graflume-theme-selector-input:focus-visible {
+    outline-color: Highlight;
+  }
+}
