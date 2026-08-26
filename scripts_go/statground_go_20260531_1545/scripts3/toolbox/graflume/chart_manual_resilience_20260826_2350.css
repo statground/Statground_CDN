@@ -1,0 +1,27 @@
+.sg-graflume-status-line {
+  flex-wrap: wrap;
+}
+
+.sg-graflume-example-retry {
+  min-height: 32px;
+  border: 1px solid #2563eb;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #1d4ed8;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+  padding: 0.3rem 0.65rem;
+}
+
+.sg-graflume-example-retry:hover,
+.sg-graflume-example-retry:focus-visible {
+  background: #eff6ff;
+  outline: 2px solid transparent;
+}
+
+.sg-graflume-example-retry:focus-visible {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.24);
+}
