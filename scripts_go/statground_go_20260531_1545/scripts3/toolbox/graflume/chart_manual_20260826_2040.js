@@ -1,0 +1,1069 @@
+(function () {
+  "use strict";
+
+  var root = document.querySelector("[data-graflume-chart-manual]");
+  if (!root || root.dataset.graflumeChartManualBound === "true") return;
+
+  var themeIDPattern = /^[a-z][a-z0-9-]{0,63}$/;
+
+  function themeRegistryError(message) {
+    var host = root.querySelector("[data-graflume-theme-selector]");
+    if (!host) return;
+    var node = host.querySelector("[data-graflume-theme-registry-error]");
+    if (!node) {
+      node = document.createElement("p");
+      node.className = "sg-graflume-theme-selector-error";
+      node.setAttribute("data-graflume-theme-registry-error", "");
+      node.setAttribute("role", "alert");
+      host.appendChild(node);
+    }
+    var fallback = root.dataset.graflumeError || "Theme catalog unavailable.";
+    node.textContent =
+      typeof message === "string" && message.trim()
+        ? message.trim().slice(0, 240)
+        : fallback.slice(0, 240);
+  }
+
+  function readEngineThemeCatalog(api) {
+    if (!api) return null;
+    if (!Array.isArray(api.builtInThemeCatalog)) {
+      throw new Error("Graflume engine theme catalog is unavailable.");
+    }
+    if (
+      api.builtInThemeCatalog.length === 0 ||
+      api.builtInThemeCatalog.length > 32
+    ) {
+      throw new Error("Invalid Graflume engine theme catalog.");
+    }
+    var seen = Object.create(null);
+    var ids = api.builtInThemeCatalog.map(function (entry) {
+      var id =
+        entry && typeof entry.id === "string"
+          ? entry.id.trim().toLowerCase()
+          : "";
+      if (!themeIDPattern.test(id) || seen[id]) {
+        throw new Error("Invalid Graflume engine theme entry.");
+      }
+      seen[id] = true;
+      return id;
+    });
+    return { ids: ids, themeByID: seen };
+  }
+
+  var registryNode = root.querySelector(
+    'script[data-graflume-theme-registry][type="application/json"]',
+  );
+  var themeRegistry = null;
+  try {
+    var registryDocument = JSON.parse(
+      registryNode ? registryNode.textContent || "null" : "null",
+    );
+    if (
+      registryDocument &&
+      registryDocument.schema === "statground.graflume.theme-registry.v1" &&
+      Array.isArray(registryDocument.themes) &&
+      registryDocument.themes.length > 0 &&
+      registryDocument.themes.length <= 32
+    ) {
+      var themeByID = Object.create(null);
+      var themes = [];
+      var validThemes = true;
+      registryDocument.themes.forEach(function (theme) {
+        var id =
+          theme && typeof theme.id === "string"
+            ? theme.id.trim().toLowerCase()
+            : "";
+        var label =
+          theme && typeof theme.label === "string" ? theme.label.trim() : "";
+        if (!themeIDPattern.test(id) || !label || themeByID[id]) {
+          validThemes = false;
+          return;
+        }
+        themeByID[id] = true;
+        themes.push(id);
+      });
+      var defaultTheme =
+        typeof registryDocument.defaultTheme === "string"
+          ? registryDocument.defaultTheme.trim().toLowerCase()
+          : "";
+      var errorLabel =
+        typeof registryDocument.errorLabel === "string"
+          ? registryDocument.errorLabel.trim().slice(0, 240)
+          : "";
+      var engineCatalogs = [window.Graflume, window.GraflumeSpatial]
+        .map(readEngineThemeCatalog)
+        .filter(Boolean);
+      var compatibleThemes = themes.filter(function (id) {
+        return engineCatalogs.every(function (catalog) {
+          return catalog.themeByID[id];
+        });
+      });
+      var supportedThemeByID = Object.create(null);
+      compatibleThemes.forEach(function (id) {
+        supportedThemeByID[id] = true;
+      });
+      var drift = engineCatalogs.some(function (catalog) {
+        return (
+          catalog.ids.length !== themes.length ||
+          catalog.ids.some(function (id, index) {
+            return id !== themes[index];
+          })
+        );
+      });
+      if (validThemes && errorLabel && supportedThemeByID[defaultTheme]) {
+        themeRegistry = {
+          defaultTheme: defaultTheme,
+          drift: drift,
+          errorLabel: errorLabel,
+          themeByID: supportedThemeByID,
+        };
+      }
+    }
+  } catch (_error) {
+    themeRegistry = null;
+  }
+  if (!themeRegistry) {
+    root.dataset.graflumeThemeRegistryState = "invalid";
+    themeRegistryError();
+    return;
+  }
+  root.dataset.graflumeThemeRegistryState = themeRegistry.drift
+    ? "drift"
+    : "ready";
+  if (themeRegistry.drift) themeRegistryError(themeRegistry.errorLabel);
+  root.dataset.graflumeChartManualBound = "true";
+
+  var panels = Array.prototype.slice.call(
+    root.querySelectorAll("[data-graflume-chart-example]"),
+  );
+  var allTabs = Array.prototype.slice.call(
+    root.querySelectorAll("[data-graflume-example-tab]"),
+  );
+  var states = new Map();
+  var activePanels = new Map();
+  var exampleGroups = [];
+  var alwaysPanels = [];
+  var permanentlyDestroyed = false;
+  var themeEvent = "graflume:themechange";
+
+  function normalizeTheme(value) {
+    var candidate = typeof value === "string" ? value.trim().toLowerCase() : "";
+    return themeRegistry.themeByID[candidate] ? candidate : "";
+  }
+
+  var currentTheme =
+    normalizeTheme(root.getAttribute("data-graflume-theme")) ||
+    themeRegistry.defaultTheme;
+
+  function copy(key, fallback, maximumLength) {
+    var value = root.dataset ? root.dataset[key] : "";
+    var resolved =
+      typeof value === "string" && value.trim() ? value.trim() : fallback;
+    return resolved.slice(0, maximumLength || 240);
+  }
+
+  function elementFor(panel, datasetKey) {
+    var id = panel.dataset ? panel.dataset[datasetKey] : "";
+    return id ? document.getElementById(id) : null;
+  }
+
+  function readJSON(panel, datasetKey, label) {
+    var node = elementFor(panel, datasetKey);
+    if (!node) throw new Error(label + " payload is missing.");
+    var value = JSON.parse(node.textContent || "null");
+    if (value === null || typeof value !== "object") {
+      throw new Error(label + " payload is invalid.");
+    }
+    return value;
+  }
+
+  function setStatus(panel, message, state) {
+    var status = elementFor(panel, "graflumeStatusId");
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state;
+  }
+
+  function showError(panel, message) {
+    var mount = elementFor(panel, "graflumeMountId");
+    if (!mount) return;
+    var fallback = document.createElement("p");
+    fallback.className = "sg-graflume-chart-fallback";
+    fallback.dataset.state = "error";
+    fallback.setAttribute("role", "alert");
+    fallback.textContent = message;
+    mount.replaceChildren(fallback);
+  }
+
+  function safeDownloadBase(panel) {
+    var value = panel.dataset.graflumeDownloadBase || "graflume-chart-data";
+    return /^graflume-[a-z0-9-]+-data$/.test(value)
+      ? value
+      : "graflume-chart-data";
+  }
+
+  function csvValue(value) {
+    if (value === null || typeof value === "undefined") return "";
+    var output =
+      typeof value === "object" ? JSON.stringify(value) : String(value);
+    return /[",\r\n]/.test(output)
+      ? '"' + output.replace(/"/g, '""') + '"'
+      : output;
+  }
+
+  function csvText(state) {
+    var records = [state.fields.map(csvValue).join(",")];
+    state.rows.forEach(function (row) {
+      records.push(
+        state.fields
+          .map(function (field) {
+            return csvValue(row[field]);
+          })
+          .join(","),
+      );
+    });
+    return records.join("\r\n") + "\r\n";
+  }
+
+  function downloadBlob(panel, body, type, extension) {
+    var url = URL.createObjectURL(new Blob([body], { type: type }));
+    var anchor = document.createElement("a");
+    anchor.hidden = true;
+    anchor.href = url;
+    anchor.download = safeDownloadBase(panel) + "." + extension;
+    document.body.appendChild(anchor);
+    try {
+      anchor.click();
+    } finally {
+      anchor.remove();
+      window.setTimeout(function () {
+        URL.revokeObjectURL(url);
+      }, 0);
+    }
+  }
+
+  function downloadData(panel, state, format) {
+    if (format === "csv") {
+      downloadBlob(panel, csvText(state), "text/csv;charset=utf-8", "csv");
+    } else if (format === "json") {
+      downloadBlob(
+        panel,
+        JSON.stringify(state.data, null, 2) + "\n",
+        "application/json;charset=utf-8",
+        "json",
+      );
+    }
+  }
+
+  function setTableVisible(panel, visible) {
+    var dataPanel = elementFor(panel, "graflumeDataPanelId");
+    var toggle = panel.querySelector("[data-graflume-table-toggle]");
+    if (!dataPanel || !toggle) return;
+    var label = visible ? toggle.dataset.hideLabel : toggle.dataset.showLabel;
+    dataPanel.hidden = !visible;
+    toggle.setAttribute("aria-expanded", visible ? "true" : "false");
+    toggle.setAttribute("aria-label", label);
+    toggle.title = label;
+    var visibleLabel = toggle.querySelector(
+      "[data-graflume-table-toggle-label]",
+    );
+    if (visibleLabel) visibleLabel.textContent = label;
+  }
+
+  function initializeHostControls(panel, state) {
+    if (state.hostControlsReady) return;
+    state.hostControlsReady = true;
+    var dataPanel = elementFor(panel, "graflumeDataPanelId");
+    var tableToggle = panel.querySelector("[data-graflume-table-toggle]");
+    if (tableToggle && dataPanel) {
+      tableToggle.hidden = false;
+      setTableVisible(panel, !dataPanel.hidden);
+      tableToggle.addEventListener("click", function () {
+        setTableVisible(panel, dataPanel.hidden);
+      });
+    }
+    panel
+      .querySelectorAll("[data-graflume-download]")
+      .forEach(function (button) {
+        button.hidden = false;
+        button.addEventListener("click", function () {
+          downloadData(panel, state, button.dataset.graflumeDownload || "");
+        });
+      });
+    var help = panel.querySelector(".sg-graflume-manual-help");
+    if (help) {
+      help.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && help.open) {
+          help.open = false;
+          var summary = help.querySelector("summary");
+          if (summary) summary.focus();
+        }
+      });
+    }
+  }
+
+  function markPlaybackRows(panel, state, playbackState) {
+    var playback =
+      state.capabilities &&
+      state.capabilities.core &&
+      state.capabilities.core.playback;
+    if (!playback) return;
+    var frame =
+      playbackState && typeof playbackState === "object"
+        ? playbackState.frame
+        : undefined;
+    panel
+      .querySelectorAll("[data-graflume-row-index]")
+      .forEach(function (rowNode) {
+        var row = state.rows[Number(rowNode.dataset.graflumeRowIndex)];
+        var current =
+          row &&
+          typeof frame !== "undefined" &&
+          String(row[playback.field]) === String(frame);
+        if (current) rowNode.dataset.playbackCurrent = "true";
+        else delete rowNode.dataset.playbackCurrent;
+      });
+  }
+
+  function requiredMethods(instance, runtimeName, playbackEnabled) {
+    var methods =
+      runtimeName === "spatial"
+        ? ["getCamera", "zoomBy", "panBy", "resetCamera"]
+        : ["getViewState", "zoomBy", "panBy", "resetView"];
+    if (runtimeName === "spatial") {
+      methods = methods.concat(["getAvailability", "setCamera", "on"]);
+    }
+    methods = methods.concat([
+      "getLegendState",
+      "setLegendItemVisible",
+      "getSelection",
+      "setSelection",
+      "getAnnotations",
+      "setAnnotations",
+      "getAnnotationsVisible",
+      "setAnnotationsVisible",
+      "resize",
+      "toggleFullscreen",
+      "toDataURL",
+      "destroy",
+    ]);
+    if (playbackEnabled) {
+      methods = methods.concat([
+        "getPlaybackState",
+        "play",
+        "pause",
+        "step",
+        "seek",
+        "setPlaybackRate",
+        "setPlaybackLoop",
+      ]);
+    }
+    methods.forEach(function (name) {
+      if (typeof instance[name] !== "function") {
+        throw new Error(
+          "The pinned Graflume runtime is missing " + name + "().",
+        );
+      }
+    });
+  }
+
+  function captureTransientState(state) {
+    if (!state || !state.chart) return null;
+    var runtimeName = runtimeFor(state.panel).name;
+    var snapshot = {
+      annotations: state.chart.getAnnotations(),
+      annotationsVisible: state.chart.getAnnotationsVisible(),
+      legend: state.chart.getLegendState(),
+      selection: state.chart.getSelection(),
+    };
+    if (runtimeName === "spatial") {
+      snapshot.camera = state.chart.getCamera();
+    } else {
+      snapshot.view = state.chart.getViewState();
+      if (
+        state.capabilities &&
+        state.capabilities.core &&
+        state.capabilities.core.playback
+      ) {
+        snapshot.playback = state.chart.getPlaybackState();
+      }
+    }
+    return snapshot;
+  }
+
+  function restoreLegendState(chart, legend) {
+    if (!legend || !Array.isArray(legend.items)) return;
+    var current = chart.getLegendState();
+    legend.items.forEach(function (item) {
+      var nextItem = current.items.find(function (candidate) {
+        return candidate.id === item.id;
+      });
+      if (
+        nextItem &&
+        nextItem.toggleable &&
+        typeof item.visible === "boolean" &&
+        nextItem.visible !== item.visible
+      ) {
+        chart.setLegendItemVisible(item.id, item.visible);
+      }
+    });
+  }
+
+  function restoreCoreView(chart, view) {
+    if (!view || !view.enabled) return;
+    chart.resetView();
+    var current = chart.getViewState();
+    if (!current.enabled) return;
+    if (
+      Number.isFinite(view.zoom) &&
+      view.zoom > 0 &&
+      Number.isFinite(current.zoom) &&
+      current.zoom > 0
+    ) {
+      chart.zoomBy(view.zoom / current.zoom, { x: 0, y: 0 });
+    }
+    current = chart.getViewState();
+    if (
+      Number.isFinite(view.offsetX) &&
+      Number.isFinite(view.offsetY) &&
+      Number.isFinite(current.offsetX) &&
+      Number.isFinite(current.offsetY)
+    ) {
+      chart.panBy(
+        view.offsetX - current.offsetX,
+        view.offsetY - current.offsetY,
+      );
+    }
+  }
+
+  function restorePlaybackState(chart, playback) {
+    if (!playback || !playback.enabled) return;
+    chart.pause();
+    chart.setPlaybackRate(playback.rate);
+    chart.setPlaybackLoop(playback.loop);
+    if (playback.playing) chart.play();
+    chart.seek(playback.index);
+  }
+
+  function restoreTransientState(state, runtimeName, snapshot) {
+    if (!snapshot || !state.chart) return;
+    var chart = state.chart;
+    chart.setAnnotations(snapshot.annotations);
+    chart.setAnnotationsVisible(snapshot.annotationsVisible);
+    restoreLegendState(chart, snapshot.legend);
+    if (snapshot.selection && snapshot.selection.enabled) {
+      chart.setSelection(snapshot.selection.items);
+    }
+    if (runtimeName === "spatial") {
+      if (snapshot.camera) chart.setCamera(snapshot.camera);
+    } else {
+      restoreCoreView(chart, snapshot.view);
+      restorePlaybackState(chart, snapshot.playback);
+    }
+  }
+
+  function scheduleResize(state) {
+    if (!state || !state.chart || state.panel.hidden || state.resizeFrame)
+      return;
+    state.resizeFrame = window.requestAnimationFrame(function () {
+      state.resizeFrame = 0;
+      if (
+        state.chart &&
+        !state.panel.hidden &&
+        typeof state.chart.resize === "function"
+      ) {
+        state.chart.resize();
+      }
+    });
+  }
+
+  function destroyState(state) {
+    if (state.resizeFrame) window.cancelAnimationFrame(state.resizeFrame);
+    state.resizeFrame = 0;
+    if (state.resizeObserver) state.resizeObserver.disconnect();
+    state.resizeObserver = null;
+    if (typeof state.unsubscribeAvailability === "function") {
+      state.unsubscribeAvailability();
+    }
+    state.unsubscribeAvailability = null;
+    if (typeof state.unsubscribePlayback === "function") {
+      state.unsubscribePlayback();
+    }
+    state.unsubscribePlayback = null;
+    if (state.chart && typeof state.chart.destroy === "function") {
+      state.chart.destroy();
+    }
+    state.chart = null;
+  }
+
+  function runtimeFor(panel) {
+    var name = panel.dataset.graflumeRuntime || "core";
+    if (name === "spatial") {
+      return { name: name, api: window.GraflumeSpatial };
+    }
+    return { name: "core", api: window.Graflume };
+  }
+
+  function setReadyState(panel) {
+    panel.dataset.graflumeExampleState = "ready";
+    root.dataset.graflumeChartManualState = "ready";
+    setStatus(panel, copy("graflumeReady", "Ready", 120), "ready");
+  }
+
+  function setLoadingState(panel) {
+    panel.dataset.graflumeExampleState = "loading";
+    root.dataset.graflumeChartManualState = "loading";
+    setStatus(panel, copy("graflumeLoading", "Loading", 120), "loading");
+  }
+
+  function setUnavailableState(panel) {
+    panel.dataset.graflumeExampleState = "error";
+    root.dataset.graflumeChartManualState = "error";
+    setStatus(
+      panel,
+      copy("graflumeError", "The chart could not be rendered.", 240),
+      "error",
+    );
+  }
+
+  function applySpatialAvailability(panel, availability) {
+    if (
+      !availability ||
+      typeof availability !== "object" ||
+      typeof availability.status !== "string" ||
+      typeof availability.available !== "boolean"
+    ) {
+      throw new Error("Spatial availability state is invalid.");
+    }
+    if (availability.status === "ready" && availability.available) {
+      setReadyState(panel);
+      return;
+    }
+    if (availability.status === "initializing") {
+      setLoadingState(panel);
+      return;
+    }
+    if (
+      availability.status === "unavailable" ||
+      availability.status === "context-lost" ||
+      availability.status === "destroyed"
+    ) {
+      setUnavailableState(panel);
+      return;
+    }
+    throw new Error(
+      "Spatial availability status is unsupported: " + availability.status,
+    );
+  }
+
+  function observeSpatialAvailability(panel, state) {
+    state.unsubscribeAvailability = state.chart.on(
+      "availabilitychange",
+      function (event) {
+        try {
+          applySpatialAvailability(
+            panel,
+            event && event.state ? event.state : state.chart.getAvailability(),
+          );
+        } catch (error) {
+          setUnavailableState(panel);
+          if (window.console && typeof window.console.error === "function") {
+            window.console.error(
+              "Graflume spatial availability update failed.",
+              error,
+            );
+          }
+        }
+      },
+    );
+    applySpatialAvailability(panel, state.chart.getAvailability());
+  }
+
+  function renderPanel(panel, transientState) {
+    var existing = states.get(panel);
+    if (existing && existing.chart) {
+      scheduleResize(existing);
+      return;
+    }
+    var state = existing || {
+      panel: panel,
+      chart: null,
+      resizeFrame: 0,
+      resizeObserver: null,
+      unsubscribePlayback: null,
+      unsubscribeAvailability: null,
+      hostControlsReady: false,
+    };
+    states.set(panel, state);
+    setLoadingState(panel);
+    try {
+      state.data = readJSON(panel, "graflumeDataPayloadId", "Data");
+      state.rows = panel.dataset.graflumeTableDataPayloadId
+        ? readJSON(panel, "graflumeTableDataPayloadId", "Table data")
+        : state.data;
+      state.fields = readJSON(panel, "graflumeFieldsPayloadId", "Fields");
+      state.capabilities = readJSON(
+        panel,
+        "graflumeCapabilitiesPayloadId",
+        "Capabilities",
+      );
+      if (!Array.isArray(state.rows)) {
+        throw new Error("Table data payload must be an array.");
+      }
+      if (
+        !Array.isArray(state.fields) ||
+        state.fields.some(function (field) {
+          return typeof field !== "string";
+        })
+      ) {
+        throw new Error("Fields payload must be an array of names.");
+      }
+      if (
+        state.capabilities.schema !==
+        "statground.graflume.manual-capabilities.v1"
+      ) {
+        throw new Error("Capabilities payload has an unsupported schema.");
+      }
+
+      var mount = elementFor(panel, "graflumeMountId");
+      var functionName = panel.dataset.graflumeChartApi || "";
+      var runtime = runtimeFor(panel);
+      if (
+        !mount ||
+        !functionName ||
+        !runtime.api ||
+        typeof runtime.api[functionName] !== "function"
+      ) {
+        throw new Error("Graflume Quick API is unavailable: " + functionName);
+      }
+      var options = readJSON(panel, "graflumeOptionsPayloadId", "Options");
+      options.theme = currentTheme;
+      if (runtime.name === "core" && typeof options.width === "undefined") {
+        options.width = "container";
+      }
+      if (runtime.name === "spatial") {
+        if (!options.create || typeof options.create !== "object") {
+          options.create = {};
+        }
+        if (typeof options.create.height === "undefined") {
+          options.create.height = 420;
+        }
+      } else if (typeof options.height === "undefined") {
+        options.height = 620;
+      }
+      mount.replaceChildren();
+      state.chart = runtime.api[functionName](
+        "#" + mount.id,
+        state.data,
+        options,
+      );
+      if (!state.chart || typeof state.chart.destroy !== "function") {
+        throw new Error("Graflume did not return a chart instance.");
+      }
+      var playbackEnabled = Boolean(
+        runtime.name === "core" &&
+        state.capabilities.core &&
+        state.capabilities.core.playback,
+      );
+      requiredMethods(state.chart, runtime.name, playbackEnabled);
+      restoreTransientState(state, runtime.name, transientState);
+      if (playbackEnabled && typeof state.chart.on === "function") {
+        state.unsubscribePlayback = state.chart.on(
+          "playbackchange",
+          function (event) {
+            markPlaybackRows(
+              panel,
+              state,
+              event && event.state ? event.state : event,
+            );
+          },
+        );
+        markPlaybackRows(panel, state, state.chart.getPlaybackState());
+      }
+      initializeHostControls(panel, state);
+      if (runtime.name === "spatial") {
+        observeSpatialAvailability(panel, state);
+      } else {
+        setReadyState(panel);
+      }
+      if (typeof window.ResizeObserver === "function") {
+        state.resizeObserver = new window.ResizeObserver(function () {
+          scheduleResize(state);
+        });
+        state.resizeObserver.observe(mount);
+      }
+    } catch (error) {
+      destroyState(state);
+      panel.dataset.graflumeExampleState = "error";
+      root.dataset.graflumeChartManualState = "error";
+      var message = copy(
+        "graflumeError",
+        "The chart could not be rendered.",
+        240,
+      );
+      setStatus(panel, message, "error");
+      showError(panel, message);
+      if (window.console && typeof window.console.error === "function") {
+        window.console.error("Graflume chart manual example failed.", error);
+      }
+    }
+  }
+
+  function styleTab(tab, selected) {
+    tab.setAttribute("aria-selected", selected ? "true" : "false");
+    tab.tabIndex = selected ? 0 : -1;
+    ["border-blue-600", "bg-blue-600", "text-white"].forEach(function (name) {
+      tab.classList.toggle(name, selected);
+    });
+    ["border-slate-200", "bg-white", "text-slate-700"].forEach(function (name) {
+      tab.classList.toggle(name, !selected);
+    });
+  }
+
+  function replaceThemeToken(node, theme) {
+    if (!node) return;
+    if (node.nodeType === 3) {
+      var value = node.nodeValue || "";
+      var quote = value.charAt(0);
+      if (
+        value.length >= 2 &&
+        (quote === "'" || quote === '"' || quote === "`") &&
+        value.charAt(value.length - 1) === quote &&
+        normalizeTheme(value.slice(1, -1))
+      ) {
+        node.nodeValue = quote + theme + quote;
+      }
+      return;
+    }
+    Array.prototype.forEach.call(node.childNodes || [], function (child) {
+      replaceThemeToken(child, theme);
+    });
+  }
+
+  function syncVisibleTheme(panel, theme) {
+    panel
+      .querySelectorAll(
+        "[data-graflume-options-code], [data-graflume-example-code]",
+      )
+      .forEach(function (code) {
+        replaceThemeToken(code, theme);
+      });
+  }
+
+  function syncAllVisibleThemes(theme) {
+    panels.forEach(function (panel) {
+      syncVisibleTheme(panel, theme);
+    });
+  }
+
+  function replaceActiveHash(panel) {
+    if (!window.history || typeof window.history.replaceState !== "function")
+      return;
+    try {
+      var url = new window.URL(window.location.href);
+      url.hash = panel.id;
+      window.history.replaceState(
+        window.history.state,
+        "",
+        url.pathname + url.search + url.hash,
+      );
+    } catch (_error) {
+      window.history.replaceState(window.history.state, "", "#" + panel.id);
+    }
+  }
+
+  function nearestExampleGroup(node) {
+    if (!node || typeof node.closest !== "function") return null;
+    return node.closest("[data-graflume-example-group]");
+  }
+
+  function isBasicPanel(panel) {
+    if (!panel) return false;
+    if (
+      panel.hasAttribute("data-graflume-basic-example") ||
+      panel.dataset.graflumeExampleKind === "basic"
+    ) {
+      return true;
+    }
+    var group = nearestExampleGroup(panel);
+    return Boolean(
+      group && group.getAttribute("data-graflume-example-group") === "basic",
+    );
+  }
+
+  function panelControlledBy(tab, groupElement) {
+    var panelID = tab ? tab.getAttribute("aria-controls") : "";
+    var panel = panelID ? document.getElementById(panelID) : null;
+    if (!panel || !root.contains(panel) || isBasicPanel(panel)) return null;
+    if (groupElement !== root && nearestExampleGroup(panel) !== groupElement) {
+      return null;
+    }
+    return panel;
+  }
+
+  function createExampleGroup(element, groupTabs, candidatePanels) {
+    var orderedPanels = [];
+    var seen = new Set();
+    groupTabs.forEach(function (tab) {
+      var panel = panelControlledBy(tab, element);
+      if (panel && !seen.has(panel)) {
+        orderedPanels.push(panel);
+        seen.add(panel);
+      }
+    });
+    candidatePanels.forEach(function (panel) {
+      if (!isBasicPanel(panel) && !seen.has(panel)) {
+        orderedPanels.push(panel);
+        seen.add(panel);
+      }
+    });
+    return {
+      element: element,
+      tabs: groupTabs,
+      panels: orderedPanels,
+    };
+  }
+
+  function buildExampleGroups() {
+    exampleGroups = [];
+    alwaysPanels = [];
+    activePanels.clear();
+    var claimedPanels = new Set();
+    var groupElements = Array.prototype.slice.call(
+      root.querySelectorAll("[data-graflume-example-group]"),
+    );
+
+    groupElements.forEach(function (groupElement) {
+      var groupName = groupElement.getAttribute("data-graflume-example-group");
+      var groupPanels = Array.prototype.slice
+        .call(groupElement.querySelectorAll("[data-graflume-chart-example]"))
+        .filter(function (panel) {
+          return nearestExampleGroup(panel) === groupElement;
+        });
+      if (groupName === "basic") {
+        groupPanels.forEach(function (panel) {
+          claimedPanels.add(panel);
+          alwaysPanels.push(panel);
+        });
+        return;
+      }
+      var groupTabs = Array.prototype.slice
+        .call(groupElement.querySelectorAll("[data-graflume-example-tab]"))
+        .filter(function (tab) {
+          return nearestExampleGroup(tab) === groupElement;
+        });
+      var group = createExampleGroup(groupElement, groupTabs, groupPanels);
+      group.panels.forEach(function (panel) {
+        claimedPanels.add(panel);
+      });
+      if (group.tabs.length > 0 && group.panels.length > 0) {
+        exampleGroups.push(group);
+      } else {
+        group.panels.forEach(function (panel) {
+          alwaysPanels.push(panel);
+        });
+      }
+    });
+
+    if (exampleGroups.length === 0 && allTabs.length > 0) {
+      var legacyPanels = panels.filter(function (panel) {
+        return !isBasicPanel(panel);
+      });
+      var legacyGroup = createExampleGroup(root, allTabs, legacyPanels);
+      if (legacyGroup.panels.length > 0) {
+        exampleGroups.push(legacyGroup);
+        legacyGroup.panels.forEach(function (panel) {
+          claimedPanels.add(panel);
+        });
+      }
+    }
+
+    panels.forEach(function (panel) {
+      if (isBasicPanel(panel) || !claimedPanels.has(panel)) {
+        if (alwaysPanels.indexOf(panel) === -1) alwaysPanels.push(panel);
+      }
+    });
+  }
+
+  function tabForPanel(group, panel) {
+    for (var index = 0; index < group.tabs.length; index += 1) {
+      if (panelControlledBy(group.tabs[index], group.element) === panel) {
+        return group.tabs[index];
+      }
+    }
+    return null;
+  }
+
+  function activateGroup(group, panel, focusTab, updateHash) {
+    if (
+      permanentlyDestroyed ||
+      !group ||
+      !panel ||
+      group.panels.indexOf(panel) < 0
+    ) {
+      return;
+    }
+    var previous = activePanels.get(group) || null;
+    activePanels.set(group, panel);
+    group.panels.forEach(function (candidate) {
+      candidate.hidden = candidate !== panel;
+    });
+    group.tabs.forEach(function (tab) {
+      styleTab(tab, panelControlledBy(tab, group.element) === panel);
+    });
+    if (previous && previous !== panel) {
+      var previousState = states.get(previous);
+      if (previousState) destroyState(previousState);
+      previous.dataset.graflumeExampleState = "inactive";
+    }
+    renderPanel(panel);
+    var activeTab = tabForPanel(group, panel);
+    if (focusTab && activeTab) activeTab.focus();
+    if (updateHash && window.history && panel.id) {
+      replaceActiveHash(panel);
+    }
+  }
+
+  function visibleActivePanels() {
+    var visible = [];
+    var seen = new Set();
+    alwaysPanels.forEach(function (panel) {
+      if (!panel.hidden && !seen.has(panel)) {
+        visible.push(panel);
+        seen.add(panel);
+      }
+    });
+    activePanels.forEach(function (panel) {
+      if (panel && !panel.hidden && !seen.has(panel)) {
+        visible.push(panel);
+        seen.add(panel);
+      }
+    });
+    return visible;
+  }
+
+  function handleThemeChange(event) {
+    if (permanentlyDestroyed) return;
+    var detail = event && event.detail;
+    var nextTheme = normalizeTheme(detail && detail.theme);
+    if (!nextTheme || nextTheme === currentTheme) return;
+    var active = visibleActivePanels();
+    var transientStates = new Map();
+    active.forEach(function (panel) {
+      var state = states.get(panel);
+      transientStates.set(panel, captureTransientState(state));
+      if (state) destroyState(state);
+    });
+    currentTheme = nextTheme;
+    root.setAttribute("data-graflume-theme", currentTheme);
+    syncAllVisibleThemes(currentTheme);
+    active.forEach(function (panel) {
+      renderPanel(panel, transientStates.get(panel));
+    });
+  }
+
+  function selectedPanelForGroup(group, hash) {
+    if (hash) {
+      var hashPanel = document.getElementById(hash);
+      if (hashPanel && group.panels.indexOf(hashPanel) >= 0) return hashPanel;
+    }
+    for (var index = 0; index < group.tabs.length; index += 1) {
+      if (group.tabs[index].getAttribute("aria-selected") === "true") {
+        var selected = panelControlledBy(group.tabs[index], group.element);
+        if (selected) return selected;
+      }
+    }
+    for (
+      var panelIndex = 0;
+      panelIndex < group.panels.length;
+      panelIndex += 1
+    ) {
+      if (!group.panels[panelIndex].hidden) return group.panels[panelIndex];
+    }
+    return group.panels[0] || null;
+  }
+
+  function bindGroup(group) {
+    group.tabs.forEach(function (tab, index) {
+      tab.addEventListener("click", function () {
+        var panel = panelControlledBy(tab, group.element);
+        if (panel) activateGroup(group, panel, false, true);
+      });
+      tab.addEventListener("keydown", function (event) {
+        var next = index;
+        var rtl = (document.documentElement.dir || "").toLowerCase() === "rtl";
+        if (event.key === "ArrowRight") next = index + (rtl ? -1 : 1);
+        else if (event.key === "ArrowLeft") next = index + (rtl ? 1 : -1);
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = group.tabs.length - 1;
+        else return;
+        event.preventDefault();
+        next = (next + group.tabs.length) % group.tabs.length;
+        var panel = panelControlledBy(group.tabs[next], group.element);
+        if (panel) activateGroup(group, panel, true, true);
+      });
+    });
+  }
+
+  function activateHashTarget(focusTab) {
+    var hash = window.location.hash.slice(1);
+    if (!hash) return false;
+    var panel = document.getElementById(hash);
+    if (!panel || !root.contains(panel)) return false;
+    for (var index = 0; index < exampleGroups.length; index += 1) {
+      var group = exampleGroups[index];
+      if (group.panels.indexOf(panel) >= 0) {
+        activateGroup(group, panel, focusTab, false);
+        return true;
+      }
+    }
+    var state = states.get(panel);
+    if (alwaysPanels.indexOf(panel) >= 0 && state) scheduleResize(state);
+    return alwaysPanels.indexOf(panel) >= 0;
+  }
+
+  function handleHashChange() {
+    if (!permanentlyDestroyed) activateHashTarget(false);
+  }
+
+  function initialize() {
+    if (permanentlyDestroyed || panels.length === 0) return;
+    buildExampleGroups();
+    syncAllVisibleThemes(currentTheme);
+    alwaysPanels.forEach(function (panel) {
+      panel.hidden = false;
+      renderPanel(panel);
+    });
+    var hash = window.location.hash.slice(1);
+    exampleGroups.forEach(function (group) {
+      bindGroup(group);
+      activateGroup(group, selectedPanelForGroup(group, hash), false, false);
+    });
+  }
+
+  function handlePageHide(event) {
+    if (event.persisted) return;
+    root.removeEventListener(themeEvent, handleThemeChange);
+    window.removeEventListener("hashchange", handleHashChange);
+    states.forEach(destroyState);
+    activePanels.clear();
+    permanentlyDestroyed = true;
+  }
+
+  function handlePageShow(event) {
+    if (!event.persisted) return;
+    visibleActivePanels().forEach(function (panel) {
+      scheduleResize(states.get(panel));
+    });
+  }
+
+  root.addEventListener(themeEvent, handleThemeChange);
+  window.addEventListener("hashchange", handleHashChange);
+  window.addEventListener("pagehide", handlePageHide);
+  window.addEventListener("pageshow", handlePageShow);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialize, { once: true });
+  } else {
+    initialize();
+  }
+})();

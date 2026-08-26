@@ -1,0 +1,395 @@
+.sg-graflume-window > .sg-graflume-window-bar {
+  gap: 8px;
+  min-height: 36px;
+  padding-inline: 10px;
+}
+
+[data-graflume-example-tabs] {
+  max-width: 100%;
+}
+
+[data-graflume-example-tab] {
+  cursor: pointer;
+  transition:
+    color 120ms ease,
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+[data-graflume-example-tab]:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+[data-graflume-chart-example][hidden] {
+  display: none;
+}
+
+[data-graflume-runtime="spatial"] .sg-graflume-chart-main,
+[data-graflume-runtime="spatial"] [data-graflume-spatial="true"] {
+  min-height: 420px;
+}
+
+.sg-graflume-manual-hostbar {
+  position: relative;
+  z-index: 34;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  align-items: center;
+  min-width: 0;
+  margin-inline-start: 2px;
+  color: #475569;
+  direction: ltr;
+}
+
+.sg-graflume-manual-host-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+}
+
+.sg-graflume-manual-host-actions button,
+.sg-graflume-manual-help > summary {
+  position: relative;
+  display: inline-grid;
+  flex: 0 0 auto;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  min-height: 28px;
+  margin: 0;
+  padding: 0;
+  place-items: center;
+  color: #64748b;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.sg-graflume-manual-host-actions button[hidden] {
+  display: none;
+}
+
+.sg-graflume-manual-host-actions button:hover,
+.sg-graflume-manual-help > summary:hover {
+  color: #1d4ed8;
+  background: #eaf2ff;
+}
+
+.sg-graflume-manual-host-actions button:focus-visible,
+.sg-graflume-manual-help > summary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.sg-graflume-manual-host-actions svg,
+.sg-graflume-manual-help > summary svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.sg-graflume-manual-host-token {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.sg-graflume-manual-action-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sg-graflume-manual-help {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.sg-graflume-manual-help > summary {
+  list-style: none;
+}
+
+.sg-graflume-manual-help > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sg-graflume-manual-help[open] > summary {
+  color: #fff;
+  background: #2563eb;
+}
+
+.sg-graflume-manual-help-panel {
+  position: absolute;
+  inset-block-start: calc(100% + 7px);
+  inset-inline-end: 0;
+  z-index: 40;
+  width: min(520px, calc(100vw - 64px));
+  padding: 14px 16px;
+  color: #475569;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgb(15 23 42 / 16%);
+  font-size: 13px;
+  line-height: 1.65;
+  text-align: start;
+}
+
+.sg-graflume-manual-help-panel p {
+  margin: 0;
+}
+
+.sg-graflume-manual-help-panel p + p {
+  margin-block-start: 8px;
+}
+
+.sg-graflume-manual-playback-contract code {
+  color: #1d4ed8;
+  font-size: 11px;
+}
+
+[data-graflume-controls="true"],
+[data-graflume-spatial="true"] {
+  direction: ltr;
+}
+
+[data-graflume-row-index][data-playback-current="true"] {
+  background: #eff6ff;
+  box-shadow: inset 3px 0 #2563eb;
+}
+
+[dir="rtl"] [data-graflume-row-index][data-playback-current="true"] {
+  box-shadow: inset -3px 0 #2563eb;
+}
+
+@media (max-width: 680px) {
+  [data-graflume-example-tabs] {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+
+  [data-graflume-example-tab] {
+    flex: 0 0 auto;
+  }
+
+  .sg-graflume-window > .sg-graflume-window-bar {
+    gap: 4px;
+    padding-inline: 6px;
+  }
+
+  .sg-graflume-window > .sg-graflume-window-bar .sg-graflume-runtime-state {
+    display: none;
+  }
+
+  .sg-graflume-window > .sg-graflume-window-bar .sg-graflume-window-title {
+    flex: 1 1 auto;
+  }
+
+  .sg-graflume-manual-hostbar {
+    margin-inline-start: auto;
+  }
+
+  .sg-graflume-manual-help-panel {
+    position: fixed;
+    inset-block-start: auto;
+    inset-inline: 12px;
+    inset-block-end: 12px;
+    width: auto;
+    max-height: min(70vh, 480px);
+    overflow-y: auto;
+  }
+}
+
+@media (pointer: coarse) {
+  .sg-graflume-window > .sg-graflume-window-bar {
+    min-height: 44px;
+  }
+
+  .sg-graflume-manual-host-actions button,
+  .sg-graflume-manual-help > summary {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-graflume-example-tab],
+  .sg-graflume-manual-hostbar *,
+  .sg-graflume-manual-hostbar *::before,
+  .sg-graflume-manual-hostbar *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+[data-graflume-example-group] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+[data-graflume-example-group] [data-graflume-example-tabs] {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  padding: 8px;
+  scroll-padding-inline: 8px;
+  scroll-snap-type: inline proximity;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-graflume-example-group] [data-graflume-example-tab] {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  white-space: nowrap;
+  scroll-snap-align: start;
+  touch-action: manipulation;
+}
+
+[data-graflume-example-group] [data-graflume-chart-example],
+[data-graflume-basic-example] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+details[data-graflume-code-disclosure] {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+details[data-graflume-code-disclosure] > summary {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 10px 14px;
+  color: #334155;
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+  list-style: none;
+  text-align: start;
+  touch-action: manipulation;
+}
+
+details[data-graflume-code-disclosure] > summary::-webkit-details-marker {
+  display: none;
+}
+
+details[data-graflume-code-disclosure] > summary::after {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-inline-end: 2px solid currentcolor;
+  border-block-end: 2px solid currentcolor;
+  content: "";
+  transform: rotate(45deg);
+  transition: transform 120ms ease;
+}
+
+details[data-graflume-code-disclosure][open] > summary {
+  color: #1d4ed8;
+  background: #eff6ff;
+  border-block-end: 1px solid #dbeafe;
+}
+
+details[data-graflume-code-disclosure][open] > summary::after {
+  transform: rotate(225deg);
+}
+
+details[data-graflume-code-disclosure] > summary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
+details[data-graflume-code-disclosure] > :not(summary),
+details[data-graflume-code-disclosure] pre,
+details[data-graflume-code-disclosure] code,
+[data-graflume-code-content] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+details[data-graflume-code-disclosure] pre,
+[data-graflume-code-content] {
+  overflow: auto;
+  overscroll-behavior-inline: contain;
+}
+
+details[data-graflume-code-disclosure] pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+[dir="rtl"] [data-graflume-example-group] [data-graflume-example-tabs] {
+  text-align: start;
+}
+
+[dir="rtl"] details[data-graflume-code-disclosure] pre,
+[dir="rtl"] details[data-graflume-code-disclosure] code,
+[dir="rtl"] [data-graflume-code-content] {
+  direction: ltr;
+  text-align: left;
+}
+
+@media (max-width: 680px) {
+  [data-graflume-example-group] [data-graflume-example-tabs] {
+    gap: 6px;
+    margin-inline: -4px;
+    padding-inline: 4px;
+  }
+
+  details[data-graflume-code-disclosure] > summary {
+    padding-inline: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details[data-graflume-code-disclosure] > summary::after {
+    transition-duration: 0.01ms;
+  }
+}
