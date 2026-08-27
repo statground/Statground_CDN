@@ -2,15 +2,15 @@
   "schema": "statground.cdn.asset-manifest.v1",
   "schema_version": 1,
   "source_repository": "statground/Statground_CDN",
-  "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+  "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
   "compiled_root": "scripts_go/statground_go_20260531_1545/",
   "asset_count": 53,
-  "total_bytes": 6581678,
+  "total_bytes": 6584475,
   "assets": [
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/vendor/tailwind/statground_tailwind_20260822_2039.min.css",
       "source_path": "scripts_go/statground_go_20260531_1545/vendor/tailwind/statground_tailwind_20260822_2039.min.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "f135bd8ff2f03d8b97b63a3cdf89018ef274e441a73c7c055823bb0c4e68671e",
       "bytes": 75105,
       "mime_type": "text/css",
@@ -24,7 +24,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/showcase_20260825_0119.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/showcase_20260825_0119.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "26ae28a3aa24e34e76b1c0bea87934260c2c373839f71b71c3a3c4cdc8556444",
       "bytes": 8259,
       "mime_type": "text/css",
@@ -43,7 +43,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/documentation_20260823_2149.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/documentation_20260823_2149.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "95e81b964e58d8c6d3c57ef8ed7dac3922db83a56dd4bfdce65e1863248fc190",
       "bytes": 11868,
       "mime_type": "text/css",
@@ -62,7 +62,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/theme_selector_20260824_2224.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/theme_selector_20260824_2224.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "9f0b6a3e251fdb913ff0fa6030fbe658169cee8a80ef513cb317c439562e9c90",
       "bytes": 1934,
       "mime_type": "text/css",
@@ -77,7 +77,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_hierarchy_20260826_2040.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_hierarchy_20260826_2040.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "b40b44b5a9627f232faccec304b85d44a8059225ec5da87189d16a2c69280b7d",
       "bytes": 8294,
       "mime_type": "text/css",
@@ -91,7 +91,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_resilience_20260826_2350.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_resilience_20260826_2350.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "b90a770220a0f56b4565d06420925269f67d7e9cea9e865942119f206478108a",
       "bytes": 556,
       "mime_type": "text/css",
@@ -105,7 +105,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_adaptive_20260827_0107.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_adaptive_20260827_0107.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "929e0454d82ba64875a22c577236ee92c979519d9da8803a47338ab09b9d3203",
       "bytes": 5770,
       "mime_type": "text/css",
@@ -119,7 +119,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_data_popover_20260827_2041.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_data_popover_20260827_2041.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "100a7b9728227446051de0b84036835e6b21a24b686552d2c6e30f122dbe6b5f",
       "bytes": 6732,
       "mime_type": "text/css",
@@ -133,7 +133,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2130.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2130.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "d9a40d5a946a18534ea4e83fcb5094b795a8b16d062cc3df816c162a97bd5a59",
       "bytes": 1614,
       "mime_type": "text/css",
@@ -147,7 +147,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/language_prefs_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/language_prefs_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "1f8c23e1927c38238fb99959147177a4407a241e9c28ee2445d8a11ba3d1c7f8",
       "bytes": 3976,
       "mime_type": "application/javascript",
@@ -161,7 +161,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/highlight_20260822_1631.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/highlight_20260822_1631.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "f06ad6470368c6c47f1e5eacb210dbb9f24478204f9836bfe5a5658014d846f9",
       "bytes": 1184,
       "mime_type": "text/css",
@@ -175,7 +175,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/showcase_20260822_1804.css",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/showcase_20260822_1804.css",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "c5a40a189dcd122fb9600cb23b3cb04209cce92a6e782971825f25dc249ffb4f",
       "bytes": 331,
       "mime_type": "text/css",
@@ -189,7 +189,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/i18n_20260606_1910.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/i18n_20260606_1910.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "f859f1d954e4ba2afd6b1597c0399b97db97d46ca4c3874228b19bed50d4eeda",
       "bytes": 27259,
       "mime_type": "application/javascript",
@@ -203,7 +203,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/mobile_menu_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/mobile_menu_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "b72922af573dae893ae7dea246047fab77abc1a9f1fae263272b19eabcf3e54a",
       "bytes": 939,
       "mime_type": "application/javascript",
@@ -217,7 +217,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/net_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/net_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "51a2df0e0a6a7f3652bbe4cfdb742d25cb52f2e7074bffde8ff9d2f0c1205e92",
       "bytes": 346,
       "mime_type": "application/javascript",
@@ -231,7 +231,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/header_20260822_1533.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/header_20260822_1533.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "2222e9d507a043e2a343ec529aebbd22c73be3bdbe54155e117d51e1831ed5ba",
       "bytes": 34282,
       "mime_type": "application/javascript",
@@ -245,7 +245,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/footer_20260822_1533.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/footer_20260822_1533.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "c56dd5eba77b0b5b9e28e17b16a5ffafc95f68440fc6f58d710d9f5b567c4553",
       "bytes": 2667,
       "mime_type": "application/javascript",
@@ -259,7 +259,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/statground_shell_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/common/common/statground_shell_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "776221f56574bbb3b9ef151988c137c1362b4dffb8d41f403c02bc9cca56ceae",
       "bytes": 1849,
       "mime_type": "application/javascript",
@@ -273,7 +273,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/vendor/echarts/echarts_6_0_0_20260711_1600.min.js",
       "source_path": "scripts_go/statground_go_20260531_1545/vendor/echarts/echarts_6_0_0_20260711_1600.min.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "baa8dfe7e1d9336b98e8986ba7e20ea15e7cdbea1ef42a59d59478632fa45a1d",
       "bytes": 1117939,
       "mime_type": "application/javascript",
@@ -287,7 +287,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/vendor/react/react_18_2_0_20260711_1600.min.js",
       "source_path": "scripts_go/statground_go_20260531_1545/vendor/react/react_18_2_0_20260711_1600.min.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "4b4969fa4ef3594324da2c6d78ce8766fbbc2fd121fff395aedf997db0a99a06",
       "bytes": 10737,
       "mime_type": "application/javascript",
@@ -301,7 +301,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/vendor/react/react_dom_18_2_0_20260711_1600.min.js",
       "source_path": "scripts_go/statground_go_20260531_1545/vendor/react/react_dom_18_2_0_20260711_1600.min.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "21758ed084cd0e37e735722ee4f3957ea960628a29dfa6c3ce1a1d47a2d6e4f7",
       "bytes": 131882,
       "mime_type": "application/javascript",
@@ -315,7 +315,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/details/i18n_workbench_book_details_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/details/i18n_workbench_book_details_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "e68209e1453a5be1487ed1185e369372bb12eac18dc8903c18fed3c703f2a3b6",
       "bytes": 25596,
       "mime_type": "application/javascript",
@@ -330,7 +330,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/index/i18n_workbench_book_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/index/i18n_workbench_book_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "689d6bd6c16fe638bd40052d3c038245d2d0a7a8ea8141da3f31acf89fc7e808",
       "bytes": 25242,
       "mime_type": "application/javascript",
@@ -345,7 +345,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "14a2a6a9bcf4341b7c307115a4c2bd152fd8c329b7e9a8cfcd519213afc4c115",
       "bytes": 10401,
       "mime_type": "application/javascript",
@@ -360,7 +360,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "a86de061bf1ec92f5b1791caff7786ac90c4b4aa6cb15db9ace9f61ba1d6ff8a",
       "bytes": 598,
       "mime_type": "application/javascript",
@@ -375,7 +375,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/theme_selector_20260824_2224.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/theme_selector_20260824_2224.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "a234ba5da16432cd86f31980d7e5d0f912623db57b3140323644f00f16349786",
       "bytes": 13697,
       "mime_type": "application/javascript",
@@ -392,7 +392,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_complete_20260827_2106.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_complete_20260827_2106.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "4b575f4855bdb073767441adf0774e1d6d3b6972c423969ce64b7abfab707304",
       "bytes": 2982745,
       "mime_type": "application/javascript",
@@ -406,7 +406,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_spatial_20260827_2106.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_spatial_20260827_2106.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "e6772430742c66cd756e6c10ad8fb39817aa8fd921cbc500781188a4dd78b6bd",
       "bytes": 732075,
       "mime_type": "application/javascript",
@@ -420,7 +420,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/boot_20260822_1631.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/boot_20260822_1631.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "d649beae6f67923b4a15906be9b9af5923dc7c593793e144ce4fcb2c3fb1269a",
       "bytes": 568,
       "mime_type": "application/javascript",
@@ -432,11 +432,11 @@
       "fault_domain": "page"
     },
     {
-      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2200.js",
-      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2200.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
-      "sha256": "52ce407c3c2392d3af56e14356b2f918fba18c0f28cc81d5bfa47c653963fa71",
-      "bytes": 2881,
+      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2220.js",
+      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2220.js",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
+      "sha256": "1f7710098b2b5f9e187daa69c04a9c6d8f1eb94485362e0f5e2baded13aa58ee",
+      "bytes": 5678,
       "mime_type": "application/javascript",
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js",
@@ -452,7 +452,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_20260827_2024.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_20260827_2024.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "49499eabf8325aa6366a660ec0b1c8b294382eb4031f258bffb0de46c083c446",
       "bytes": 66570,
       "mime_type": "application/javascript",
@@ -471,7 +471,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/account/main_20260627_1823.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/account/main_20260627_1823.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "780d1a87d6fa474142e36b0ec2f2ba14705f36beeaad959b8f253804b126cae5",
       "bytes": 17913,
       "mime_type": "application/javascript",
@@ -485,7 +485,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/admin/visitors/admin_visitors_20260620_2305.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/admin/visitors/admin_visitors_20260620_2305.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "c972d0ca2040ea932c653240b5b6e08607e63cfa5c6f9d457735bb39ef32b656",
       "bytes": 11706,
       "mime_type": "application/javascript",
@@ -501,7 +501,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/data/archived_book_main_20260531_1545.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/data/archived_book_main_20260531_1545.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "9b57f128537db1b95da09f83f9c6c33a02ec721e18361c72ce201bb6b6ab8ade",
       "bytes": 5003,
       "mime_type": "application/javascript",
@@ -515,7 +515,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/index/main_toolbox_20260822_1631.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/index/main_toolbox_20260822_1631.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "9d46838db68a882d36bbe9a3f2de88c8afb6d3791008ad6f3c144b17abf92597",
       "bytes": 433,
       "mime_type": "application/javascript",
@@ -531,7 +531,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/intro/intro_20260603_2324.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/intro/intro_20260603_2324.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "37155bcea3d430c0ab1b62bac9ed00989d49dd0ba3bf2f931c99da520e0bfe0c",
       "bytes": 2856,
       "mime_type": "application/javascript",
@@ -545,7 +545,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/intro/legal_policy_20260610_2222.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/intro/legal_policy_20260610_2222.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "0569bee9bdca49194c5cbb03784b2d10b7d11b383a024343b1175d4a2387c5b6",
       "bytes": 556,
       "mime_type": "application/javascript",
@@ -559,7 +559,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/manual_demo_20260822_1631.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/manual_demo_20260822_1631.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "0da0bd8d065e3bf09a7064358301f1bdb1977c7a639af8fc17808543c3e81b28",
       "bytes": 8702,
       "mime_type": "application/javascript",
@@ -577,7 +577,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/details/main_20260725_2125.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/details/main_20260725_2125.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "50d8348c1991f5968345548f0311582a89eedae3fa0edd477694929d6be41448",
       "bytes": 17816,
       "mime_type": "application/javascript",
@@ -595,7 +595,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/index/main_20260627_0032.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/index/main_20260627_0032.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "956bf9907c35003bf9a083acfcef188cf064cb550acb486a4e4c92bb8780c8b6",
       "bytes": 26888,
       "mime_type": "application/javascript",
@@ -615,7 +615,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/national_bibliography_20260726_1930.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/national_bibliography_20260726_1930.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "fcfe35bc0f9817a97a11ce8087f014b5e28e1df3df35a9dc03ff6d686312807a",
       "bytes": 22345,
       "mime_type": "application/javascript",
@@ -630,7 +630,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/main_20260705_1404.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/main_20260705_1404.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "130543135924eb9c4ecca016ebe2ec0ee244e21f0672b00b39f86158fd542026",
       "bytes": 7975,
       "mime_type": "application/javascript",
@@ -645,7 +645,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/lecture/main_20260725_2125.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/lecture/main_20260725_2125.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "485a0f4ab6d6b4c3e4c4604eb7613a842d8c95bb98b86ed897c033a5b62d5437",
       "bytes": 28977,
       "mime_type": "application/javascript",
@@ -662,7 +662,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/shopping/main_20260711_1600.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/workbench/shopping/main_20260711_1600.js",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "3a7e6bfc1e0e3c55e9773a40e6b7088510b7c42cec57b7a7540f2c8b20551eb3",
       "bytes": 322936,
       "mime_type": "application/javascript",
@@ -680,7 +680,7 @@
     {
       "logical_path": "assets/images/favicon.ico",
       "source_path": "assets/images/favicon.ico",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "f2aab7f455eacce7afd80b98dc0549335aac9795c5a97d755bdc630fbc0bfa26",
       "bytes": 1150,
       "mime_type": "image/x-icon",
@@ -694,7 +694,7 @@
     {
       "logical_path": "images/common/affiliates/adpick.png",
       "source_path": "images/common/affiliates/adpick.png",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "f85b120a43c7dc4bb4feffb2f92ed1044e54c52f2be976dc6fa8d92d3127df5c",
       "bytes": 16488,
       "mime_type": "image/png",
@@ -713,7 +713,7 @@
     {
       "logical_path": "images/data/book/aladin.png",
       "source_path": "images/data/book/aladin.png",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "01c4ae69a98faef933d856dc98c19c592fc184330d19a99093aaa3db7c8aa14c",
       "bytes": 59402,
       "mime_type": "image/png",
@@ -727,7 +727,7 @@
     {
       "logical_path": "images/data/book/kyobobook.png",
       "source_path": "images/data/book/kyobobook.png",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "dc94c23c184074b52e0e86c08ed4fdcd30407a3af0dfe2a903a562be63c90dce",
       "bytes": 63329,
       "mime_type": "image/png",
@@ -741,7 +741,7 @@
     {
       "logical_path": "images/data/book/yes24.png",
       "source_path": "images/data/book/yes24.png",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "2a63ae6bc4a79bd079b6bce4b6a6901e2fdb464565224a4443fb878bc8e3c6b5",
       "bytes": 13475,
       "mime_type": "image/png",
@@ -755,7 +755,7 @@
     {
       "logical_path": "images/data/lecture/inflearn.svg",
       "source_path": "images/data/lecture/inflearn.svg",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "33f6fe4289e0edc9aca9a3ddaa183c3db313dbe720f1aca278826b8384d65982",
       "bytes": 3277,
       "mime_type": "image/svg+xml",
@@ -769,7 +769,7 @@
     {
       "logical_path": "images/workbench/shopping/gmarket_logo_20260629_1333.svg",
       "source_path": "images/workbench/shopping/gmarket_logo_20260629_1333.svg",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "6ae220c4e14845274b0801adee91029790710fd30308db55dee5e9eeb538e827",
       "bytes": 693,
       "mime_type": "image/svg+xml",
@@ -784,7 +784,7 @@
     {
       "logical_path": "images/workbench/shopping/kurly_logo_20260629_1333.svg",
       "source_path": "images/workbench/shopping/kurly_logo_20260629_1333.svg",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "d1c0518a6919614b46bb044d8fad2b78f572f045abb180de7cfd524357dff8ef",
       "bytes": 324,
       "mime_type": "image/svg+xml",
@@ -799,7 +799,7 @@
     {
       "logical_path": "scripts_go/statground_go_20260531_1545/images/advertising/advertising_disclosure_20260720_2315.png",
       "source_path": "scripts_go/statground_go_20260531_1545/images/advertising/advertising_disclosure_20260720_2315.png",
-      "source_commit": "4f1c8843727d9d9bc2ee87caa9823064353ed564",
+      "source_commit": "d020c9df27198e92515227a2ef3f5280feb746c3",
       "sha256": "d4f59f9803d1a73a8dddeef82914e238f93ee9f9ae26f7f62871571fcab23d58",
       "bytes": 635538,
       "mime_type": "image/png",
