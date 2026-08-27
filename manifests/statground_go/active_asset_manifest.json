@@ -447,6 +447,36 @@
       "fault_domain": "page"
     },
     {
+      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/catalog.json",
+      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/catalog.json",
+      "source_commit": "b75fc455ebd7d4636ab29d32bc10b4e7b7c51cb9",
+      "sha256": "24db1f439a330b179841667e560f3e60f87b948b5aeb1085f464ce8f1f0761c3",
+      "bytes": 4005311,
+      "mime_type": "application/json",
+      "dependencies": [],
+      "order": 30,
+      "consuming_routes": [
+        "/toolbox/graflume/charts/map/",
+        "/toolbox/graflume/charts/map/*"
+      ],
+      "fault_domain": "page"
+    },
+    {
+      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/manifest.json",
+      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/manifest.json",
+      "source_commit": "b75fc455ebd7d4636ab29d32bc10b4e7b7c51cb9",
+      "sha256": "90b46121baffc7ac3eda443a5fc73dd0d0412ecceb36e05a3fd4d99b68d62ba4",
+      "bytes": 54964,
+      "mime_type": "application/json",
+      "dependencies": [],
+      "order": 31,
+      "consuming_routes": [
+        "/toolbox/graflume/charts/map/",
+        "/toolbox/graflume/charts/map/*"
+      ],
+      "fault_domain": "page"
+    },
+    {
       "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2233.js",
       "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2233.js",
       "source_commit": "b75fc455ebd7d4636ab29d32bc10b4e7b7c51cb9",
@@ -458,7 +488,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_complete_20260828_0153.js",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_spatial_20260827_2233.js"
       ],
-      "order": 30,
+      "order": 32,
       "consuming_routes": [
         "/toolbox/graflume/charts/*"
       ],
@@ -477,7 +507,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_complete_20260828_0153.js",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_spatial_20260827_2233.js"
       ],
-      "order": 31,
+      "order": 33,
       "consuming_routes": [
         "/toolbox/graflume/charts/*"
       ],
@@ -497,7 +527,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/catalog.json",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/manifest.json"
       ],
-      "order": 32,
+      "order": 34,
       "consuming_routes": [
         "/toolbox/graflume/charts/map/",
         "/toolbox/graflume/charts/map/*"
@@ -512,7 +542,7 @@
       "bytes": 17913,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 33,
+      "order": 35,
       "consuming_routes": [
         "/account/*"
       ],
@@ -528,7 +558,7 @@
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/vendor/echarts/echarts_6_0_0_20260711_1600.min.js"
       ],
-      "order": 34,
+      "order": 36,
       "consuming_routes": [
         "/admin/*"
       ],
@@ -542,7 +572,7 @@
       "bytes": 5003,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 35,
+      "order": 37,
       "consuming_routes": [
         "/data/*"
       ],
@@ -558,7 +588,7 @@
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js"
       ],
-      "order": 36,
+      "order": 38,
       "consuming_routes": [
         "/"
       ],
@@ -572,7 +602,7 @@
       "bytes": 2856,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 37,
+      "order": 39,
       "consuming_routes": [
         "/intro/*"
       ],
@@ -586,7 +616,7 @@
       "bytes": 556,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 38,
+      "order": 40,
       "consuming_routes": [
         "/intro/*"
       ],
@@ -604,7 +634,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/highlight_20260822_1631.css",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/solid_edit/boot_20260822_1631.js"
       ],
-      "order": 39,
+      "order": 41,
       "consuming_routes": [
         "/toolbox/solid-edit/"
       ],
@@ -621,7 +651,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js",
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/details/i18n_workbench_book_details_20260531_1545.js"
       ],
-      "order": 40,
+      "order": 42,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*"
@@ -641,7 +671,7 @@
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js",
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/book/index/i18n_workbench_book_20260531_1545.js"
       ],
-      "order": 41,
+      "order": 43,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*"
@@ -656,7 +686,7 @@
       "bytes": 22345,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 42,
+      "order": 44,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*"
@@ -671,7 +701,7 @@
       "bytes": 7975,
       "mime_type": "application/javascript",
       "dependencies": [],
-      "order": 43,
+      "order": 45,
       "consuming_routes": [
         "/workbench/*",
         "/*/workbench/*"
@@ -688,7 +718,7 @@
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js"
       ],
-      "order": 44,
+      "order": 46,
       "consuming_routes": [
         "/workbench/lecture/*",
         "/*/workbench/lecture/*"
@@ -706,7 +736,7 @@
         "scripts_go/statground_go_20260531_1545/vendor/echarts/echarts_6_0_0_20260711_1600.min.js",
         "scripts_go/statground_go_20260531_1545/scripts3/workbench/index/i18n_workbench_20260531_1545.js"
       ],
-      "order": 45,
+      "order": 47,
       "consuming_routes": [
         "/shopping/*",
         "/*/shopping/*"
@@ -721,7 +751,7 @@
       "bytes": 1150,
       "mime_type": "image/x-icon",
       "dependencies": [],
-      "order": 46,
+      "order": 48,
       "consuming_routes": [
         "*"
       ],
@@ -735,7 +765,7 @@
       "bytes": 16488,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 47,
+      "order": 49,
       "consuming_routes": [
         "/workbench/book/*",
         "/*/workbench/book/*",
@@ -754,7 +784,7 @@
       "bytes": 59402,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 48,
+      "order": 50,
       "consuming_routes": [
         "/data/*"
       ],
@@ -768,7 +798,7 @@
       "bytes": 63329,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 49,
+      "order": 51,
       "consuming_routes": [
         "/data/*"
       ],
@@ -782,7 +812,7 @@
       "bytes": 13475,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 50,
+      "order": 52,
       "consuming_routes": [
         "/data/*"
       ],
@@ -796,7 +826,7 @@
       "bytes": 3277,
       "mime_type": "image/svg+xml",
       "dependencies": [],
-      "order": 51,
+      "order": 53,
       "consuming_routes": [
         "/data/*"
       ],
@@ -810,7 +840,7 @@
       "bytes": 693,
       "mime_type": "image/svg+xml",
       "dependencies": [],
-      "order": 52,
+      "order": 54,
       "consuming_routes": [
         "/shopping/*",
         "/*/shopping/*"
@@ -825,7 +855,7 @@
       "bytes": 324,
       "mime_type": "image/svg+xml",
       "dependencies": [],
-      "order": 53,
+      "order": 55,
       "consuming_routes": [
         "/shopping/*",
         "/*/shopping/*"
@@ -840,24 +870,9 @@
       "bytes": 635538,
       "mime_type": "image/png",
       "dependencies": [],
-      "order": 54,
+      "order": 56,
       "consuming_routes": [
         "/ad/*"
-      ],
-      "fault_domain": "page"
-    },
-    {
-      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/catalog.json",
-      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/catalog.json",
-      "source_commit": "b75fc455ebd7d4636ab29d32bc10b4e7b7c51cb9",
-      "sha256": "24db1f439a330b179841667e560f3e60f87b948b5aeb1085f464ce8f1f0761c3",
-      "bytes": 4005311,
-      "mime_type": "application/json",
-      "dependencies": [],
-      "order": 55,
-      "consuming_routes": [
-        "/toolbox/graflume/charts/map/",
-        "/toolbox/graflume/charts/map/*"
       ],
       "fault_domain": "page"
     },
@@ -868,21 +883,6 @@
       "sha256": "f0625563476e0f404d7c8d1a714f4244c422de21926f56d5cb9d19014c45c479",
       "bytes": 9219300,
       "mime_type": "application/geo+json",
-      "dependencies": [],
-      "order": 56,
-      "consuming_routes": [
-        "/toolbox/graflume/charts/map/",
-        "/toolbox/graflume/charts/map/*"
-      ],
-      "fault_domain": "page"
-    },
-    {
-      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/manifest.json",
-      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/geography/natural-earth-10m/manifest.json",
-      "source_commit": "b75fc455ebd7d4636ab29d32bc10b4e7b7c51cb9",
-      "sha256": "90b46121baffc7ac3eda443a5fc73dd0d0412ecceb36e05a3fd4d99b68d62ba4",
-      "bytes": 54964,
-      "mime_type": "application/json",
       "dependencies": [],
       "order": 57,
       "consuming_routes": [
