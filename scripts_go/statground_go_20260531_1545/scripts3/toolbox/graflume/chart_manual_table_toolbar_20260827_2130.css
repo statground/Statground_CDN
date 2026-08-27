@@ -1,0 +1,70 @@
+.sg-graflume-manual-table-toolbar {
+  position: absolute;
+  z-index: 23;
+  inset-block-start: 0.375rem;
+  inset-inline-end: 0.375rem;
+  box-sizing: border-box;
+  max-width: calc(100% - 0.75rem);
+  color: #475569;
+  direction: ltr;
+}
+
+.sg-graflume-manual-table-toolbar .graflume-controls__strip {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  height: 30px;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgb(100 116 139 / 0.3);
+  border-radius: 5px;
+  background: rgb(248 250 252 / 0.92);
+  box-shadow: 0 2px 8px rgb(15 23 42 / 0.12);
+  backdrop-filter: blur(4px);
+}
+
+.sg-graflume-manual-table-toolbar [data-graflume-table-toggle-proxy] {
+  display: inline-grid;
+  place-items: center;
+}
+
+@media (max-width: 560px), (pointer: coarse) {
+  .sg-graflume-manual-table-toolbar {
+    inset-block-start: 0.125rem;
+    inset-inline-end: 0.125rem;
+    max-width: calc(100% - 0.25rem);
+  }
+
+  .sg-graflume-manual-table-toolbar .graflume-controls__strip {
+    height: 44px;
+  }
+
+  .sg-graflume-manual-table-toolbar [data-graflume-table-toggle-proxy] {
+    flex-basis: 44px;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+  }
+}
+
+@media (forced-colors: active) {
+  .sg-graflume-manual-table-toolbar .graflume-controls__strip {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sg-graflume-manual-table-toolbar,
+  .sg-graflume-manual-table-toolbar * {
+    scroll-behavior: auto;
+    transition: none !important;
+  }
+}
+
+@media print {
+  .sg-graflume-manual-table-toolbar {
+    display: none !important;
+  }
+}
