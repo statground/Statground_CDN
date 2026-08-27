@@ -432,15 +432,14 @@
       "fault_domain": "page"
     },
     {
-      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_20260827_2024.js",
-      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_20260827_2024.js",
+      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2145.js",
+      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2145.js",
       "source_commit": "262e882cf744bdaf0552462819f3545f096e69ab",
-      "sha256": "49499eabf8325aa6366a660ec0b1c8b294382eb4031f258bffb0de46c083c446",
-      "bytes": 66570,
+      "sha256": "cedd96dd9eb43eb798269b35b754a1247d96c99bcea49ff8a0888e9c4bfa463b",
+      "bytes": 2380,
       "mime_type": "application/javascript",
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js",
-        "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/theme_selector_20260824_2224.js",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_complete_20260827_2106.js",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_spatial_20260827_2106.js"
       ],
@@ -451,15 +450,15 @@
       "fault_domain": "page"
     },
     {
-      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2145.js",
-      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_table_toolbar_20260827_2145.js",
+      "logical_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_20260827_2024.js",
+      "source_path": "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_20260827_2024.js",
       "source_commit": "262e882cf744bdaf0552462819f3545f096e69ab",
-      "sha256": "cedd96dd9eb43eb798269b35b754a1247d96c99bcea49ff8a0888e9c4bfa463b",
-      "bytes": 2380,
+      "sha256": "49499eabf8325aa6366a660ec0b1c8b294382eb4031f258bffb0de46c083c446",
+      "bytes": 66570,
       "mime_type": "application/javascript",
       "dependencies": [
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/common/manual_language_20260822_1631.js",
-        "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/chart_manual_20260827_2024.js",
+        "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/theme_selector_20260824_2224.js",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_complete_20260827_2106.js",
         "scripts_go/statground_go_20260531_1545/scripts3/toolbox/graflume/runtime_spatial_20260827_2106.js"
       ],
