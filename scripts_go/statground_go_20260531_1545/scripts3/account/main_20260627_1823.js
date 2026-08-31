@@ -127,6 +127,12 @@
         return "허용된 Google Workspace 계정으로만 로그인할 수 있습니다.";
       case "LINK_REQUIRED":
         return "이 이메일은 먼저 비밀번호로 로그인한 뒤 Google 계정을 연결해 주세요.";
+      case "EMAIL_CHANGE_REQUIRES_VERIFICATION":
+        return "이메일 주소 변경은 별도의 이메일 인증이 필요합니다.";
+      case "EXPIRED":
+        return "인증 링크가 만료되었거나 이미 사용되었습니다. 새 인증 메일을 요청해 주세요.";
+      case "RATE_LIMITED":
+        return "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.";
       case "GOOGLE_ALREADY_LINKED":
       case "GOOGLE_ALREADY_LINKED_OTHER":
       case "GOOGLE_EMAIL_OWNED_BY_OTHER_ACCOUNT":
@@ -314,16 +320,207 @@
   }
 
   function renderMyInfo(root) {
-    root.innerHTML = card("내 정보", "계정 정보를 확인합니다.", '<div id="sg-myinfo" class="text-left whitespace-pre-wrap text-xs bg-gray-50 border rounded-lg p-4">불러오는 중...</div>');
+    root.innerHTML = card("내 정보", "TiDB 권위 저장소의 현재 계정 정보를 확인합니다.", '<div id="sg-myinfo" class="text-left text-sm bg-gray-50 border rounded-lg p-4">불러오는 중...</div>');
     const box = document.getElementById("sg-myinfo");
     fetch("/account/ajax_get_userinfo/", { credentials: "same-origin" })
       .then((res) => res.json())
       .then((json) => {
-        if (box) box.textContent = JSON.stringify(json || {}, null, 2);
+        if (!box) return;
+        if (!json || !json.uuid) {
+          box.innerHTML = '<p class="text-red-700">로그인이 필요하거나 계정 정보를 불러오지 못했습니다.</p><a class="mt-3 inline-flex text-blue-700 hover:underline" href="/account/">로그인</a>';
+          return;
+        }
+        const rows = [
+          ["이메일", json.email],
+          ["닉네임", json.nickname || json.name],
+          ["실명", json.realname],
+          ["성별", json.gender],
+          ["회원 역할", json.role],
+          ["이메일 수신", json.email_subscription ? "수신" : "수신 안 함"],
+          ["가입일", json.date_joined ? new Date(json.date_joined).toLocaleString() : "-"]
+        ];
+        box.innerHTML = rows.map(function (row) {
+          return '<div class="grid grid-cols-[7rem_1fr] gap-3 border-b border-gray-200 py-2 last:border-0"><strong>' + esc(row[0]) + '</strong><span class="break-all">' + esc(row[1] || "-") + '</span></div>';
+        }).join("") + '<a class="mt-4 inline-flex w-full justify-center rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-800" href="/account/userinfo/">내 정보 수정</a>';
       })
       .catch(() => {
         if (box) box.textContent = "일시적으로 요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.";
       });
+  }
+
+  function renderUserInfo(root) {
+    root.innerHTML = card("내 정보 수정", "로그인한 계정의 닉네임, 실명, 성별과 이메일 수신 여부를 수정합니다.", [
+      '<div id="sg-account-msg" class="hidden rounded-lg border border-red-200 bg-red-50 text-red-800 px-4 py-3 text-sm mb-4"></div>',
+      '<div id="sg-userinfo-loading" class="text-sm text-gray-600">불러오는 중...</div>',
+      '<form id="sg-userinfo-form" class="hidden space-y-4 text-left">',
+      '<div><label class="block text-sm font-medium mb-1" for="sg-userinfo-email">이메일</label><input id="sg-userinfo-email" type="email" readonly class="w-full rounded-lg border border-gray-300 bg-gray-100 px-3 py-2 text-gray-600" /><p class="mt-1 text-xs text-gray-500">이메일 주소 변경에는 별도 인증이 필요합니다.</p></div>',
+      '<div><label class="block text-sm font-medium mb-1" for="sg-userinfo-nickname">닉네임</label><input id="sg-userinfo-nickname" type="text" minlength="2" maxlength="120" class="w-full rounded-lg border border-gray-300 px-3 py-2" required /></div>',
+      '<div><label class="block text-sm font-medium mb-1" for="sg-userinfo-realname">실명</label><input id="sg-userinfo-realname" type="text" minlength="2" maxlength="120" class="w-full rounded-lg border border-gray-300 px-3 py-2" required /></div>',
+      '<div><label class="block text-sm font-medium mb-1" for="sg-userinfo-gender">성별</label><select id="sg-userinfo-gender" class="w-full rounded-lg border border-gray-300 px-3 py-2"><option value="응답하고 싶지 않음">응답하고 싶지 않음</option><option value="Male">남성</option><option value="Female">여성</option><option value="기타">기타</option></select></div>',
+      '<label class="flex items-center gap-2 text-sm"><input id="sg-userinfo-subscription" type="checkbox" class="h-4 w-4" /> Statground 소식 이메일 수신</label>',
+      '<button id="sg-userinfo-submit" type="submit" class="w-full rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60">저장</button>',
+      '</form>'
+    ].join(""));
+
+    const form = document.getElementById("sg-userinfo-form");
+    const loading = document.getElementById("sg-userinfo-loading");
+    const msg = document.getElementById("sg-account-msg");
+    const email = document.getElementById("sg-userinfo-email");
+    const nickname = document.getElementById("sg-userinfo-nickname");
+    const realname = document.getElementById("sg-userinfo-realname");
+    const gender = document.getElementById("sg-userinfo-gender");
+    const subscription = document.getElementById("sg-userinfo-subscription");
+    const submit = document.getElementById("sg-userinfo-submit");
+
+    fetch("/account/ajax_get_userinfo/", { credentials: "same-origin" })
+      .then((res) => res.json())
+      .then((json) => {
+        if (!json || !json.uuid) {
+          window.location.href = "/account/?msg=login_required";
+          return;
+        }
+        email.value = json.email || "";
+        nickname.value = json.nickname || json.name || "";
+        realname.value = json.realname || "";
+        gender.value = json.gender || "응답하고 싶지 않음";
+        subscription.checked = Boolean(json.email_subscription);
+        loading.classList.add("hidden");
+        form.classList.remove("hidden");
+      })
+      .catch(() => setMessageElement(msg, "계정 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."));
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      submit.disabled = true;
+      setMessageElement(msg, "");
+      try {
+        const result = await postForm("/account/ajax_update_userinfo/", {
+          txt_email: email.value,
+          txt_name: nickname.value,
+          txt_realname: realname.value,
+          rad_gender: gender.value,
+          rad_email_subscription: subscription.checked ? "1" : "0"
+        });
+        if (result && result.checker === "SUCCESS") {
+          window.location.href = "/account/myinfo/";
+          return;
+        }
+        setMessageElement(msg, accountMessage(result && result.checker, (result && (result.msg || result.error))));
+      } catch (e) {
+        setMessageElement(msg, "일시적으로 요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  }
+
+  function renderPasswordResetRequest(root) {
+    root.innerHTML = card("비밀번호 재설정", "가입한 이메일로 1시간 동안 유효한 인증 링크를 보냅니다.", [
+      '<div class="space-y-4 text-left">',
+      '<div id="sg-account-msg" class="hidden rounded-lg border border-blue-200 bg-blue-50 text-blue-900 px-4 py-3 text-sm"></div>',
+      '<label class="block text-sm font-medium" for="sg-reset-email">이메일</label>',
+      '<input id="sg-reset-email" type="email" autocomplete="email" class="w-full rounded-lg border border-gray-300 px-3 py-2" required />',
+      '<button id="sg-reset-submit" type="button" class="w-full rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60">인증 메일 보내기</button>',
+      '</div>'
+    ].join(""));
+    const email = document.getElementById("sg-reset-email");
+    const submit = document.getElementById("sg-reset-submit");
+    const msg = document.getElementById("sg-account-msg");
+    async function send() {
+      if (!email.value.trim()) {
+        setMessageElement(msg, "이메일을 입력해 주세요.");
+        return;
+      }
+      submit.disabled = true;
+      setMessageElement(msg, "");
+      try {
+        const result = await postForm("/account/ajax_send_auth_email/", { email: email.value });
+        if (result && result.exist === "EXIST") {
+          setMessageElement(msg, "인증 메일을 보냈습니다. 받은편지함과 스팸함을 확인해 주세요.");
+          return;
+        }
+        if (result && result.error) {
+          setMessageElement(msg, result.error);
+          return;
+        }
+        setMessageElement(msg, "입력한 이메일과 일치하는 활성 계정이 있으면 인증 메일을 보냅니다.");
+      } catch (e) {
+        setMessageElement(msg, "일시적으로 요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      } finally {
+        submit.disabled = false;
+      }
+    }
+    submit.addEventListener("click", send);
+    email.addEventListener("keydown", function (event) { if (event.key === "Enter") send(); });
+  }
+
+  function renderPasswordResetAuth(root) {
+    const authCode = String(ctx().msg || "").trim();
+    if (window.STATGROUND_PAGE_CONTEXT) window.STATGROUND_PAGE_CONTEXT.msg = "";
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, document.title, "/account/change_password/auth/");
+    }
+    root.innerHTML = card("새 비밀번호 설정", "인증 링크를 확인하고 새 비밀번호를 저장합니다.", [
+      '<div id="sg-account-msg" class="rounded-lg border border-gray-200 bg-gray-50 text-gray-700 px-4 py-3 text-sm mb-4">인증 링크를 확인하는 중...</div>',
+      '<form id="sg-reset-password-form" class="hidden space-y-4 text-left">',
+      '<div><label class="block text-sm font-medium mb-1" for="sg-new-password">새 비밀번호</label><input id="sg-new-password" type="password" minlength="8" maxlength="1024" autocomplete="new-password" class="w-full rounded-lg border border-gray-300 px-3 py-2" required /></div>',
+      '<div><label class="block text-sm font-medium mb-1" for="sg-new-password-confirm">새 비밀번호 확인</label><input id="sg-new-password-confirm" type="password" minlength="8" maxlength="1024" autocomplete="new-password" class="w-full rounded-lg border border-gray-300 px-3 py-2" required /></div>',
+      '<button id="sg-reset-password-submit" type="submit" class="w-full rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60">비밀번호 변경</button>',
+      '</form>',
+      '<a id="sg-reset-retry" class="hidden mt-4 text-sm text-blue-700 hover:underline" href="/account/change_password/">새 인증 메일 요청</a>'
+    ].join(""));
+    const msg = document.getElementById("sg-account-msg");
+    const form = document.getElementById("sg-reset-password-form");
+    const retry = document.getElementById("sg-reset-retry");
+    const password = document.getElementById("sg-new-password");
+    const confirm = document.getElementById("sg-new-password-confirm");
+    const submit = document.getElementById("sg-reset-password-submit");
+
+    if (!authCode) {
+      setMessageElement(msg, accountMessage("EXPIRED"));
+      retry.classList.remove("hidden");
+      return;
+    }
+    postForm("/account/ajax_check_auth_code/", { auth_code: authCode })
+      .then(function (result) {
+        if (result && result.checker === "SUCCESS") {
+          setMessageElement(msg, "인증되었습니다. 새 비밀번호를 입력해 주세요.");
+          form.classList.remove("hidden");
+          return;
+        }
+        setMessageElement(msg, accountMessage("EXPIRED"));
+        retry.classList.remove("hidden");
+      })
+      .catch(function () {
+        setMessageElement(msg, "인증 링크를 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+        retry.classList.remove("hidden");
+      });
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      if (password.value !== confirm.value) {
+        setMessageElement(msg, "새 비밀번호가 서로 일치하지 않습니다.");
+        return;
+      }
+      if (password.value.length < 8) {
+        setMessageElement(msg, "비밀번호는 8자 이상이어야 합니다.");
+        return;
+      }
+      submit.disabled = true;
+      try {
+        const result = await postForm("/account/ajax_password_change/", { auth_code: authCode, password: password.value });
+        if (result && result.checker === "SUCCESS") {
+          window.location.href = "/account/?msg=password_changed";
+          return;
+        }
+        setMessageElement(msg, accountMessage(result && result.checker, result && result.error));
+        if (result && result.checker === "EXPIRED") retry.classList.remove("hidden");
+      } catch (e) {
+        setMessageElement(msg, "비밀번호를 변경하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      } finally {
+        submit.disabled = false;
+      }
+    });
   }
 
   function renderPlaceholder(root, title, desc, linkText) {
@@ -335,9 +532,11 @@
     if (!root) return;
     const page = ctx();
     if (page.url === "signup") return renderSignup();
-    if (page.url === "change_password") return renderPlaceholder(root, "비밀번호 재설정", "인증 메일 발송 API 연결이 필요한 화면입니다.", "홈으로");
+    if (page.url === "change_password" && page.mode === "auth") return renderPasswordResetAuth(root);
+    if (page.url === "change_password") return renderPasswordResetRequest(root);
     if (page.url === "welcome") return renderPlaceholder(root, "환영합니다", "회원가입이 완료되었습니다.", "홈으로");
-    if (page.url === "myinfo" || page.url === "userinfo") return renderMyInfo(root);
+    if (page.url === "userinfo") return renderUserInfo(root);
+    if (page.url === "myinfo") return renderMyInfo(root);
     renderLogin(root);
   }
 
