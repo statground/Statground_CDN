@@ -1,0 +1,15 @@
+.sg-graflume code[data-toolbox-code], .sg-solid-product code[data-toolbox-code] { font:inherit; color:inherit; direction:ltr; unicode-bidi:plaintext; }
+.sg-graflume-api-code .sg-code-keyword, .sg-solid-code .sg-code-keyword { color:#c4b5fd; }
+.sg-graflume-api-code .sg-code-string, .sg-solid-code .sg-code-string { color:#a7f3d0; }
+.sg-graflume-api-code .sg-code-number, .sg-solid-code .sg-code-number { color:#fdba74; }
+.sg-graflume-api-code .sg-code-comment, .sg-solid-code .sg-code-comment { color:#a4b4cc; }
+.sg-graflume-api-code .sg-code-property, .sg-solid-code .sg-code-property { color:#67e8f9; }
+.sg-graflume-api-code .sg-code-tag, .sg-solid-code .sg-code-tag { color:#93c5fd; }
+.sg-graflume-api-code .sg-code-punctuation, .sg-solid-code .sg-code-punctuation { color:#e2e8f0; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-keyword { color:#6f42c1; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-string { color:#116329; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-number { color:#8a5700; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-comment { color:#586477; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-property,
+.sg-graflume-product .sg-graflume-help-code .sg-code-tag { color:#0550ae; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-punctuation { color:#374151; }
