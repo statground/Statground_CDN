@@ -1,0 +1,108 @@
+/* Task-oriented Graflume documentation. */
+.sg-graflume-product .sg-graflume-help-paths { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:0 0 32px; }
+.sg-graflume-help-paths a { display:flex; flex-direction:column; gap:7px; min-width:0; min-height:100px; padding:18px; border:1px solid #dce3ef; border-radius:12px; color:#24324c; background:#fff; text-decoration:none; }
+.sg-graflume-help-paths a:first-child { background:#f0efff; border-color:#d9d4ff; }
+.sg-graflume-help-paths strong { font-size:15px; line-height:1.5; }
+.sg-graflume-help-paths span { font-size:12px; line-height:1.7; color:#66748c; }
+.sg-graflume-help-paths a:hover { border-color:#7065db; background:#f5f4ff; }
+.sg-graflume-help-disclosure { margin-top:24px; min-width:0; border:1px solid #dce3ef; border-radius:14px; background:white; scroll-margin-top:24px; }
+.sg-graflume-help-disclosure > summary { position:relative; display:block; cursor:pointer; padding:24px 64px 24px 24px; list-style:none; }
+[dir=rtl] .sg-graflume-help-disclosure > summary { padding:24px 24px 24px 64px; }
+.sg-graflume-help-disclosure > summary::-webkit-details-marker { display:none; }
+.sg-graflume-help-disclosure > summary::after { content:'+'; position:absolute; inset-inline-end:24px; top:28px; color:#5443d9; font-size:25px; line-height:1; }
+.sg-graflume-help-disclosure[open] > summary::after { content:'−'; }
+.sg-graflume-help-disclosure > summary > span { display:block; font-size:12px; font-weight:700; color:#6053c8; }
+.sg-graflume-help-disclosure > summary > strong { display:block; margin-top:5px; color:#192438; font-size:23px; line-height:1.4; }
+.sg-graflume-help-disclosure > summary > p { margin:8px 0 0; font-size:14px; line-height:1.8; color:#607089; }
+.sg-graflume-help-disclosure[open] > summary { border-bottom:1px solid #e5e9f1; }
+.sg-graflume-help-disclosure > section { padding:26px; }
+.sg-graflume-help-intro { max-width:760px; margin-bottom:24px; }
+.sg-graflume-help-intro h2 { margin:0 0 12px; font-size:25px; line-height:1.45; color:#192438; }
+.sg-graflume-help-intro p { color:#56667e; font-size:15px; line-height:1.9; }
+.sg-graflume-help-intro a,.sg-graflume-help-link { display:inline-flex; align-items:center; min-height:44px; gap:8px; font-size:14px; font-weight:700; line-height:1.6; color:#5040c8; text-decoration:underline; text-underline-offset:4px; }
+.sg-graflume-help-nav { display:flex; flex-wrap:wrap; gap:8px; padding:14px; background:#f7f8fc; border:1px solid #e3e8f1; border-radius:10px; margin:20px 0 28px; }
+.sg-graflume-help-nav a { display:inline-flex; align-items:center; min-height:44px; padding:6px 12px; border:1px solid #dce3ef; border-radius:8px; background:#fff; font-size:13px; font-weight:700; color:#344560; text-decoration:none; }
+.sg-graflume-help-section { min-width:0; margin:32px 0 0; scroll-margin-top:24px; }
+.sg-graflume-help-section > h3,.sg-graflume-help-section > header h3 { margin:0 0 10px; font-size:21px; line-height:1.5; color:#202d44; }
+.sg-graflume-help-section > p,.sg-graflume-help-section > header p { color:#607089; line-height:1.85; font-size:14px; margin:0 0 18px; }
+.sg-graflume-help-items,.sg-graflume-help-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; padding:0; list-style:none; }
+.sg-graflume-help-item,.sg-graflume-help-card { min-width:0; padding:20px; background:#fff; border:1px solid #dce3ef; border-radius:12px; overflow-wrap:anywhere; }
+.sg-graflume-help-item h4,.sg-graflume-help-card h3,.sg-graflume-help-card h4 { margin:0 0 8px; color:#22314b; font-size:17px; line-height:1.5; }
+.sg-graflume-help-item p,.sg-graflume-help-card p { margin:8px 0; color:#607089; font-size:14px; line-height:1.85; }
+.sg-graflume-help-card > code { display:block; margin:8px 0 12px; color:#5547ba; font-size:13px; line-height:1.7; overflow-wrap:anywhere; }
+.sg-graflume-help-card details { margin-top:16px; border-top:1px solid #e6eaf1; padding-top:12px; }
+.sg-graflume-help-card details > summary,.sg-graflume-help-section > summary { cursor:pointer; padding:10px 0; min-height:44px; color:#39496a; font-weight:700; font-size:14px; line-height:1.7; }
+.sg-graflume-help-card[hidden],.sg-graflume-help-grid [hidden],[data-graflume-api-empty][hidden] { display:none!important; }
+.sg-graflume-product .sg-graflume-help-code { display:block; margin:16px 0; padding:20px; max-width:100%; overflow:auto; border:1px solid #dfe5ef; border-radius:10px; background:#f7f9fc; color:#1e3150; font:13px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace; text-align:left; white-space:pre; tab-size:2; }
+.sg-graflume-help-code code { font:inherit; color:inherit; }
+.sg-graflume-help-note,.sg-graflume-help-notice { margin:18px 0; padding:16px 18px; background:#f5f4ff; border-inline-start:3px solid #9185df; border-radius:0 8px 8px 0; color:#58617e; font-size:13px; line-height:1.85; }
+.sg-graflume-help-note p,.sg-graflume-help-notice p { margin:0; }
+.sg-graflume-help-contract { margin:14px 0; font-size:13px; line-height:1.85; }
+.sg-graflume-help-contract > div { padding:10px 0; border-bottom:1px solid #edf0f6; }
+.sg-graflume-help-contract dt { font-weight:700; color:#384966; }
+.sg-graflume-help-contract dd { margin:4px 0 0; color:#65728a; overflow-wrap:anywhere; }
+.sg-graflume-help-contract code { color:#5143b0; }
+.sg-graflume-help-problem { background:#fbfcfe; }
+.sg-graflume-help-glossary { border-top:1px solid #e1e6f0; padding-top:16px; }
+.sg-graflume-help-glossary dl { display:grid; grid-template-columns:minmax(90px,1fr) minmax(0,3fr); gap:14px; font-size:14px; line-height:1.8; }
+.sg-graflume-help-glossary dt { color:#34435e; font-weight:700; }
+.sg-graflume-help-glossary dd { margin:0; color:#66748a; }
+.sg-graflume-help-search { margin:24px 0; }
+.sg-graflume-help-search label { display:block; margin-bottom:8px; font-size:14px; font-weight:700; color:#39496a; }
+.sg-graflume-help-search input,[data-graflume-api-search] { box-sizing:border-box; width:100%; min-height:48px; padding:12px 16px; border:1px solid #b9c6dc; border-radius:10px; background:#fff; color:#253654; font-size:15px; }
+.sg-graflume-help-count { color:#6c7890; font-size:12px; margin:10px 0; }
+.sg-graflume-help-timeline { list-style:none; padding:0; margin:28px 0; }
+.sg-graflume-help-update { position:relative; padding:0 0 30px 28px; border-inline-start:2px solid #e3e6f1; margin-inline-start:6px; }
+[dir=rtl] .sg-graflume-help-update { padding:0 28px 30px 0; }
+.sg-graflume-help-update::before { content:''; position:absolute; inset-inline-start:-6px; top:8px; width:10px; height:10px; border-radius:50%; background:#7767d9; box-shadow:0 0 0 5px #f1effc; }
+.sg-graflume-help-update header { display:flex; align-items:center; flex-wrap:wrap; gap:10px; font-size:12px; color:#68758c; }
+.sg-graflume-help-update header time { font-weight:700; color:#5143b0; }
+.sg-graflume-help-update h3 { margin:12px 0; color:#202d44; font-size:23px; line-height:1.5; }
+.sg-graflume-help-update p,.sg-graflume-help-update li { color:#607089; font-size:14px; line-height:1.85; }
+.sg-graflume-help-update ul { margin:14px 0; padding-inline-start:20px; }
+.sg-graflume-help-update li+li { margin-top:7px; }
+.sg-graflume-help-update .sg-graflume-help-card { background:#fbfbfe; }
+.sg-graflume-help-technical { margin-top:30px; padding:18px 22px; border:1px solid #e0e6ef; border-radius:12px; background:#f8f9fc; }
+.sg-graflume-help-technical > summary { min-height:44px; cursor:pointer; font-size:14px; font-weight:700; color:#4b5b76; }
+.sg-graflume-help-technical p { font-size:13px; line-height:1.8; color:#66748a; }
+.sg-graflume-help-technical a { color:#5344c0; overflow-wrap:anywhere; }
+.sg-graflume-help-paths a:focus-visible,.sg-graflume-help-nav a:focus-visible,.sg-graflume-help-link:focus-visible,.sg-graflume-help-disclosure summary:focus-visible,.sg-graflume-help-card summary:focus-visible,[data-graflume-api-search]:focus-visible { outline:3px solid #9689ef; outline-offset:3px; }
+@media(max-width:1050px) { .sg-graflume-product .sg-graflume-help-paths { grid-template-columns:repeat(2,minmax(0,1fr)); } .sg-graflume-help-items,.sg-graflume-help-grid { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:600px) { .sg-graflume-help-paths a { padding:14px; min-height:90px; } .sg-graflume-help-disclosure > summary { padding:20px 48px 20px 16px; } [dir=rtl] .sg-graflume-help-disclosure > summary { padding:20px 16px 20px 48px; } .sg-graflume-help-disclosure > summary::after { inset-inline-end:16px; top:25px; } .sg-graflume-help-disclosure > summary > strong { font-size:20px; } .sg-graflume-help-disclosure > section { padding:18px 14px; } .sg-graflume-help-intro h2 { font-size:22px; } .sg-graflume-help-item,.sg-graflume-help-card { padding:16px; } .sg-graflume-product .sg-graflume-help-code { padding:14px; font-size:12px; } .sg-graflume-help-update { padding-inline-start:20px; } .sg-graflume-help-update h3 { font-size:20px; } }
+.sg-graflume-help-search { display:block; font-size:14px; font-weight:700; color:#39496a; }
+.sg-graflume-help-search input { display:block; margin-top:10px; font-weight:400; }
+.sg-graflume-help-setup,.sg-graflume-help-code-disclosure,.sg-graflume-help-details { margin:20px 0; padding:16px 20px; border:1px solid #dce3ef; border-radius:10px; background:#f8f9fc; }
+.sg-graflume-help-setup > summary,.sg-graflume-help-code-disclosure > summary,.sg-graflume-help-details > summary { min-height:44px; padding:10px 0; cursor:pointer; font-size:14px; font-weight:700; color:#39496a; }
+.sg-graflume-help-setup p,.sg-graflume-help-details p { font-size:14px; line-height:1.85; color:#607089; }
+.sg-graflume-help-method > summary > strong { display:block; }
+.sg-graflume-help-method > summary > code { display:block; font-weight:400; font-size:12px; line-height:1.8; color:#6656b1; overflow-wrap:anywhere; }
+.sg-graflume-help-method .sg-graflume-help-caveat { padding:12px; border-radius:8px; background:#f6f7fb; font-size:12px; }
+.sg-graflume-help-problem { padding:16px 18px; border:1px solid #dce3ef; border-radius:10px; }
+.sg-graflume-help-problem summary { min-height:44px; cursor:pointer; color:#384966; font-size:14px; font-weight:700; line-height:1.8; }
+.sg-graflume-help-problem p { margin-top:12px; font-size:14px; line-height:1.85; color:#607089; }
+.sg-graflume-help-glossary > div { display:grid; grid-template-columns:minmax(70px,1fr) minmax(0,4fr); gap:20px; padding:14px 0; border-bottom:1px solid #e7ebf3; font-size:14px; line-height:1.85; }
+.sg-graflume-help-update > header { display:block; margin:24px 0 20px; }
+.sg-graflume-help-library { margin:28px 0; }
+.sg-graflume-help-library > h3 { font-size:22px; line-height:1.5; color:#23324b; }
+.sg-graflume-help-library > p { margin:12px 0 20px; color:#607089; font-size:14px; line-height:1.85; }
+.sg-graflume-help-links { padding:0; list-style:none; }
+.sg-graflume-help-links a { display:inline-flex; align-items:center; min-height:44px; color:#5443c1; font-size:14px; text-decoration:underline; text-underline-offset:4px; }
+[data-graflume-api-count] { margin:12px 0; color:#6c7890; font-size:12px; }
+[data-graflume-api-empty] { margin:20px 0; padding:18px; border:1px dashed #b5bfce; border-radius:10px; color:#576780; font-size:14px; line-height:1.8; }
+.sg-graflume-help-disclosure > summary > .sg-graflume-help-summary-description { margin-top:8px; font-size:14px; font-weight:400; line-height:1.8; color:#607089; }
+.sg-graflume-help-intro h2,.sg-graflume-help-section h3,.sg-graflume-help-item h4,.sg-graflume-help-card h3,.sg-graflume-help-card h4,.sg-graflume-help-update h3,.sg-graflume-help-library h3 { font-weight:700; }
+.sg-graflume-help-grid { align-items:start; }
+.sg-graflume-help-method > summary { position:relative; display:block; padding-inline-start:18px; list-style:none; }
+.sg-graflume-help-method > summary::-webkit-details-marker { display:none; }
+.sg-graflume-help-method > summary::before { content:'›'; position:absolute; inset-inline-start:0; top:9px; color:#7562c3; font-size:18px; line-height:1.5; }
+.sg-graflume-help-method[open] > summary::before { content:'⌄'; }
+
+/* Keep light code panels readable with the shared syntax highlighter. */
+.sg-graflume-product .sg-graflume-help-code .sg-code-punctuation { color:#374151; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-property { color:#0550ae; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-string { color:#116329; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-number { color:#8a5700; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-keyword { color:#6f42c1; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-comment { color:#586477; }
+.sg-graflume-product .sg-graflume-help-code .sg-code-tag { color:#0550ae; }
+.sg-graflume-help-card details.sg-graflume-help-method > summary { padding-inline-start:20px; }
