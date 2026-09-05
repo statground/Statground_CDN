@@ -63,6 +63,7 @@
     var dirty = false;
     var applyingSample = false;
     var outputFrame = 0;
+    var rendererTimer = 0;
     var pending = null;
     var switching = false;
 
@@ -101,6 +102,14 @@
       if (editor && typeof editor.renderAllCodeBlocks === "function") {
         try { editor.renderAllCodeBlocks(); } catch (_) { /* Keep the source copy available if rendering fails. */ }
       }
+      // Math images must contain their glyph paths instead of referencing page-only caches.
+      var mathOutput = window.MathJax && window.MathJax.startup && window.MathJax.startup.output;
+      if (mathOutput && mathOutput.options && mathOutput.options.fontCache !== "none") {
+        mathOutput.options.fontCache = "none";
+        if (editor && typeof editor.renderAllMath === "function" && editor.editor && editor.editor.querySelector(".lre-math-node")) {
+          try { editor.renderAllMath(true); } catch (_) { /* The editor keeps the original TeX available. */ }
+        }
+      }
       try { text(output, currentOutput() || copy.outputEmpty); }
       catch (_) { text(output, copy.runtimeError); }
       var value = editor && editor.editor ? String(editor.editor.textContent || "") : "";
@@ -108,6 +117,13 @@
     }
     function scheduleOutput() {
       if (!outputFrame) outputFrame = window.requestAnimationFrame(renderOutput);
+    }
+    function scheduleRendererRefresh() {
+      if (rendererTimer) window.clearTimeout(rendererTimer);
+      rendererTimer = window.setTimeout(function () {
+        rendererTimer = 0;
+        renderOutput();
+      }, 250);
     }
     function observeEdit(event) {
       // Rendered math, captions and selection markers can change HTML without an edit.
@@ -117,6 +133,7 @@
         (target === editor.editor || (typeof editor.editor.contains === "function" && editor.editor.contains(target)));
       if (!applyingSample && ((!editor && target === source) || bodyInput || (editor && editor.state && editor.state.dirty))) dirty = true;
       scheduleOutput();
+      if (target !== source) scheduleRendererRefresh();
     }
     function syncControls() {
       pressed(fullButton, mode === "full");
@@ -169,6 +186,7 @@
       text(status, mode === "mini" ? copy.readyMini : copy.readyFull);
       syncControls();
       scheduleOutput();
+      scheduleRendererRefresh();
       return true;
     }
     function switchMode(nextMode) {
@@ -210,6 +228,7 @@
       syncControls();
       updateSampleLabel();
       renderOutput();
+      scheduleRendererRefresh();
       var title = byID("solid-edit-demo-document-title");
       text(actionStatus, reset ? copy.resetDone : copy.sampleLoaded.replace("{title}", title ? title.textContent : id));
     }
@@ -311,6 +330,8 @@
     window.addEventListener("pagehide", function () {
       if (outputFrame) window.cancelAnimationFrame(outputFrame);
       outputFrame = 0;
+      if (rendererTimer) window.clearTimeout(rendererTimer);
+      rendererTimer = 0;
       destroyEditor();
       try { window.localStorage.removeItem(storageKey); } catch (_) { /* Storage may be unavailable. */ }
     });
