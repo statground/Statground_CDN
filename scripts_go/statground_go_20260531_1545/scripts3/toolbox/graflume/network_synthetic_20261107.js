@@ -29,6 +29,11 @@
     }
     initialized = true;
     var catalog = api.networkTopologyCatalog;
+    var controlLabels = {};
+    Object.keys(labels.controls || {}).forEach(function (key) {
+      var value = labels.controls[key];
+      if (typeof value === "string" && value.trim()) controlLabels[key] = value;
+    });
     var topology = root.querySelector("[data-network-topology]");
     var count = root.querySelector("[data-network-count]");
     var seed = root.querySelector("[data-network-seed]");
@@ -112,7 +117,7 @@
                 reset: true,
                 fullscreen: true,
                 export: true,
-                labels: labels.controls,
+                labels: controlLabels,
               },
             },
       };
