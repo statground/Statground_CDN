@@ -82,7 +82,7 @@
         return item.id === nextGraph.topology;
       });
       return {
-        width: width,
+        width: preview ? width : "container",
         height: preview ? 148 : 420,
         theme: theme,
         x: { field: "source", type: "ordinal" },
