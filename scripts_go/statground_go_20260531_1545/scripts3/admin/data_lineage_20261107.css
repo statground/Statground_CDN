@@ -189,3 +189,29 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.sg-lineage-columns {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+  padding-block: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  padding-inline: 16px;
+  gap: 0;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-align: center;
+  color: #475569;
+}
+.sg-lineage [data-lineage-graph-key] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+.sg-lineage [data-lineage-graph-key] button {
+  font-size: 0.75rem;
+  min-height: 44px;
+}

@@ -22,6 +22,8 @@
   var byID = new Map(),
     evidence = new Map();
   var pageSize = 50;
+  var currentGraphHeight = 580;
+  var compactGraph = matchMedia("(max-width: 600px)");
   var number = new Intl.NumberFormat(document.documentElement.lang || "en");
 
   function element(tag, text) {
@@ -52,6 +54,7 @@
     });
     mount.replaceChildren();
     mount.hidden = true;
+    root.querySelector("[data-lineage-columns]").hidden = true;
     form.querySelectorAll("input").forEach(function (node) {
       node.value = "";
     });
@@ -489,6 +492,17 @@
         if (!columns.has(layer)) columns.set(layer, []);
         columns.get(layer).push(node);
       });
+      var maximumRows = Math.max(
+        1,
+        ...Array.from(columns.values()).map(function (nodes) {
+          return nodes.length;
+        }),
+      );
+      currentGraphHeight = Math.max(580, maximumRows * 40 + 112);
+      mount.style.height = currentGraphHeight + "px";
+      root.querySelector("[data-lineage-columns]").hidden = false;
+      var key = root.querySelector("[data-lineage-graph-key]");
+      key.replaceChildren();
       columns.forEach(function (nodes, layer) {
         nodes.sort(function (a, b) {
           return (a.domain + a.label).localeCompare(b.domain + b.label);
@@ -496,13 +510,39 @@
         nodes.forEach(function (node, index) {
           rows.push({
             node: node.id,
-            label: node.label,
+            fullLabel: node.label,
+            displayLabel:
+              mode.value === "overview"
+                ? String(node.domain).slice(0, compactGraph.matches ? 3 : 16) +
+                  (String(node.domain).length > (compactGraph.matches ? 3 : 16)
+                    ? "…"
+                    : "") +
+                  " " +
+                  number.format(node.count)
+                : String(node.label).slice(0, compactGraph.matches ? 5 : 22) +
+                  (String(node.label).length > (compactGraph.matches ? 5 : 22)
+                    ? "…"
+                    : ""),
             role: layer,
             nodeX: (layers.indexOf(layer) + 0.5) / layers.length,
             nodeY: (index + 1) / (nodes.length + 1),
             pinned: true,
             value: node.count || 1,
           });
+          var entry = element("button", node.label);
+          entry.type = "button";
+          entry.addEventListener("click", function () {
+            authorized(function () {
+              if (byID.has(node.id)) selectNode(node.id);
+              else {
+                form.elements.domain.value = node.domain;
+                form.elements.layer.value = node.layer;
+                page = 1;
+                renderTable();
+              }
+            });
+          });
+          key.appendChild(entry);
         });
       });
       graph.edges.forEach(function (edge) {
@@ -512,21 +552,28 @@
           target: edge.target,
           value: 1,
           directed: true,
+          fullLabel: edge.source + " → " + edge.target,
         });
       });
       chart = api.network(mount, rows, {
         width: "container",
-        height: 580,
+        height: currentGraphHeight,
+        padding: { left: 16, right: 16, top: 48, bottom: 32 },
+        theme: {
+          extends: "graflume-light",
+          typography: { fontSize: compactGraph.matches ? 10 : 12 },
+        },
         x: { field: "source", type: "ordinal" },
         y: { field: "value", type: "quantitative" },
         axes: { x: false, y: false },
         legend: false,
         mark: {
+          stroke: "rgba(100,116,139,0.24)",
           fields: {
             source: "source",
             target: "target",
             node: "node",
-            label: "label",
+            label: "displayLabel",
             group: "role",
             nodeX: "nodeX",
             nodeY: "nodeY",
@@ -538,7 +585,13 @@
           options: { layout: "dag", routing: "orthogonal", directed: true },
         },
         interaction: {
-          tooltip: true,
+          tooltip: {
+            fields: [
+              { field: "fullLabel", label: "Object" },
+              { field: "node", label: "ID" },
+              { field: "role", label: "Layer" },
+            ],
+          },
           navigation: {
             minZoom: 1,
             maxZoom: 6,
@@ -571,12 +624,15 @@
         " nodes / " +
         number.format(graph.edges.length) +
         " relations";
+      root.dataset.lineageGraphNodes = String(graph.nodes.length);
+      root.dataset.lineageGraphHeight = String(currentGraphHeight);
       root.dataset.lineageGraphState = "ready";
     } catch (error) {
       if (chart) chart.destroy();
       chart = null;
       mount.replaceChildren();
       mount.hidden = true;
+      root.querySelector("[data-lineage-columns]").hidden = true;
       graphStatus.textContent = String(error.message || labels.unavailable);
       root.dataset.lineageGraphState = "unavailable";
     }
@@ -728,10 +784,13 @@
       var width = mount.clientWidth;
       if (chart && width && width !== previousWidth) {
         previousWidth = width;
-        chart.resize(width, 580);
+        chart.resize(width, currentGraphHeight);
       }
     }).observe(mount);
   }
+  compactGraph.addEventListener("change", function () {
+    if (active && catalog && graphOpen) renderGraph();
+  });
   page = Math.max(
     1,
     Number(new URLSearchParams(location.search).get("page")) || 1,
