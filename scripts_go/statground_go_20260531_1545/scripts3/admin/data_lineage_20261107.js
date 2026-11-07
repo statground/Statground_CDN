@@ -68,6 +68,8 @@
     root.dataset.lineageState = "retired";
     root.dataset.lineageGraphState = "retired";
     delete root.dataset.lineageMatches;
+    delete root.dataset.lineageGraphNodes;
+    delete root.dataset.lineageGraphHeight;
     history.replaceState(null, "", location.pathname);
   }
 
@@ -477,8 +479,20 @@
     if (!catalog || !graphOpen || !active) return;
     var version = generation;
     try {
-      var graph = graphData(),
-        api = await runtime();
+      var graph = graphData();
+      if (!graph.nodes.length) {
+        if (chart) chart.destroy();
+        chart = null;
+        mount.replaceChildren();
+        mount.hidden = true;
+        root.querySelector("[data-lineage-columns]").hidden = true;
+        root.querySelector("[data-lineage-graph-key]").replaceChildren();
+        graphStatus.textContent = labels.empty;
+        root.dataset.lineageGraphNodes = "0";
+        root.dataset.lineageGraphState = "empty";
+        return;
+      }
+      var api = await runtime();
       if (version !== generation || !catalog || !active) return;
       if (chart) chart.destroy();
       chart = null;
@@ -510,6 +524,8 @@
         nodes.forEach(function (node, index) {
           rows.push({
             node: node.id,
+            source: null,
+            target: null,
             fullLabel: node.label,
             displayLabel:
               mode.value === "overview"
@@ -633,6 +649,7 @@
       mount.replaceChildren();
       mount.hidden = true;
       root.querySelector("[data-lineage-columns]").hidden = true;
+      root.querySelector("[data-lineage-graph-key]").replaceChildren();
       graphStatus.textContent = String(error.message || labels.unavailable);
       root.dataset.lineageGraphState = "unavailable";
     }
