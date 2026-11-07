@@ -105,7 +105,7 @@
   line-height: 1.8;
 }
 .sg-lineage-graph {
-  height: 580px;
+  height: 768px;
   min-width: 0;
   max-width: 100%;
   overflow: hidden;
@@ -190,20 +190,52 @@
   }
 }
 
-.sg-lineage-columns {
-  position: sticky;
-  top: 0;
+.sg-lineage-graph-viewport {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+}
+.sg-lineage-graph-viewport[hidden] {
+  display: none;
+}
+.sg-lineage-graph-viewport canvas[data-graflume-surface] {
+  touch-action: pan-x pan-y !important;
+}
+.sg-lineage-graph-viewport:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+.sg-lineage-graph-stage {
+  position: relative;
+  min-width: 100%;
+}
+.sg-lineage-tiers {
+  position: absolute;
+  inset: 48px 0;
   z-index: 2;
-  background: #fff;
-  padding-block: 0.5rem;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  padding-inline: 16px;
-  gap: 0;
-  font-size: 0.65rem;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  pointer-events: none;
+  font-size: 0.75rem;
   font-weight: 800;
-  text-align: center;
   color: #475569;
+}
+.sg-lineage-tiers span {
+  display: block;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+.sg-lineage-tiers b {
+  position: sticky;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 76px;
+  height: 100%;
+  padding-left: 12px;
+  background: #f8fafc;
 }
 .sg-lineage [data-lineage-graph-key] {
   display: flex;

@@ -9,6 +9,8 @@
   var status = root.querySelector("[data-lineage-status]");
   var graphStatus = root.querySelector("[data-lineage-graph-status]");
   var mount = root.querySelector("[data-lineage-graph]");
+  var viewport = root.querySelector("[data-lineage-graph-viewport]");
+  var stage = root.querySelector("[data-lineage-graph-stage]");
   var mode = root.querySelector("[data-lineage-mode]");
   var catalog = null,
     chart = null,
@@ -22,8 +24,8 @@
   var byID = new Map(),
     evidence = new Map();
   var pageSize = 50;
-  var currentGraphHeight = 580;
-  var compactGraph = matchMedia("(max-width: 600px)");
+  var currentGraphHeight = 768,
+    naturalGraphWidth = 0;
   var number = new Intl.NumberFormat(document.documentElement.lang || "en");
 
   function element(tag, text) {
@@ -53,7 +55,17 @@
       node.replaceChildren();
     });
     mount.replaceChildren();
+    viewport.scrollLeft = 0;
+    viewport.scrollTop = 0;
+    stage.style.removeProperty("width");
+    mount.style.removeProperty("height");
+    root
+      .querySelector("[data-lineage-columns]")
+      .style.removeProperty("grid-template-rows");
+    naturalGraphWidth = 0;
+    currentGraphHeight = 768;
     mount.hidden = true;
+    viewport.hidden = true;
     root.querySelector("[data-lineage-columns]").hidden = true;
     form.querySelectorAll("input").forEach(function (node) {
       node.value = "";
@@ -70,6 +82,8 @@
     delete root.dataset.lineageMatches;
     delete root.dataset.lineageGraphNodes;
     delete root.dataset.lineageGraphHeight;
+    delete root.dataset.lineageGraphWidth;
+    delete root.dataset.lineageGraphLayout;
     history.replaceState(null, "", location.pathname);
   }
 
@@ -475,6 +489,49 @@
     return runtimePromise;
   }
 
+  function graphGeometry() {
+    if (!chart) return;
+    var entries = new Map();
+    root
+      .querySelectorAll("[data-lineage-graph-key] button")
+      .forEach(function (entry) {
+        entries.set(entry.dataset.lineageGraphNode, entry);
+      });
+    function visit(node) {
+      var hit = node.datum && node.datum.familyInteraction;
+      if (node.type === "circle" && hit && hit.kind === "network-node") {
+        var entry = entries.get(hit.id);
+        if (entry) {
+          entry.dataset.lineageSceneX = String(node.cx);
+          entry.dataset.lineageSceneY = String(node.cy);
+          entry.dataset.lineageSceneRadius = String(node.radius);
+        }
+      }
+      if (node.type === "group") node.children.forEach(visit);
+    }
+    visit(chart.getScene().root);
+    positionControls();
+  }
+
+  function positionControls() {
+    var controls = mount.querySelector("[data-graflume-controls]");
+    if (!controls) return;
+    if (
+      document.fullscreenElement &&
+      document.fullscreenElement.contains(controls)
+    ) {
+      controls.style.left = "auto";
+      controls.style.right = "2px";
+      return;
+    }
+    controls.style.right = "auto";
+    controls.style.left =
+      Math.max(
+        0,
+        viewport.scrollLeft + viewport.clientWidth - controls.offsetWidth - 4,
+      ) + "px";
+  }
+
   async function renderGraph() {
     if (!catalog || !graphOpen || !active) return;
     var version = generation;
@@ -485,6 +542,7 @@
         chart = null;
         mount.replaceChildren();
         mount.hidden = true;
+        viewport.hidden = true;
         root.querySelector("[data-lineage-columns]").hidden = true;
         root.querySelector("[data-lineage-graph-key]").replaceChildren();
         graphStatus.textContent = labels.empty;
@@ -498,26 +556,51 @@
       chart = null;
       mount.replaceChildren();
       mount.hidden = false;
+      viewport.hidden = false;
       var layers = ["inbound", "L0", "L1", "L2", "L3", "unclassified"],
-        columns = new Map(),
+        tiers = new Map(),
         rows = [];
       graph.nodes.forEach(function (node) {
         var layer = layers.includes(node.layer) ? node.layer : "unclassified";
-        if (!columns.has(layer)) columns.set(layer, []);
-        columns.get(layer).push(node);
+        if (!tiers.has(layer)) tiers.set(layer, []);
+        tiers.get(layer).push(node);
       });
       var maximumRows = Math.max(
         1,
-        ...Array.from(columns.values()).map(function (nodes) {
+        ...Array.from(tiers.values()).map(function (nodes) {
           return nodes.length;
         }),
       );
-      currentGraphHeight = Math.max(580, maximumRows * 40 + 112);
+      var columnCount = Math.min(26, maximumRows),
+        rowHeight = 112,
+        tierRows = layers.map(function (layer) {
+          return Math.max(
+            1,
+            Math.ceil((tiers.get(layer) || []).length / columnCount),
+          );
+        }),
+        tierOffsets = [],
+        totalRows = 0;
+      tierRows.forEach(function (count) {
+        tierOffsets.push(totalRows);
+        totalRows += count;
+      });
+      naturalGraphWidth = columnCount * 168 + 128;
+      var graphWidth = Math.max(viewport.clientWidth, naturalGraphWidth);
+      stage.style.width = graphWidth + "px";
+      currentGraphHeight = totalRows * rowHeight + 96;
       mount.style.height = currentGraphHeight + "px";
-      root.querySelector("[data-lineage-columns]").hidden = false;
+      var nodeRadius = 9 / Math.min(graphWidth - 128, currentGraphHeight - 96);
+      var guides = root.querySelector("[data-lineage-columns]");
+      guides.hidden = false;
+      guides.style.gridTemplateRows = tierRows
+        .map(function (count) {
+          return count * rowHeight + "px";
+        })
+        .join(" ");
       var key = root.querySelector("[data-lineage-graph-key]");
       key.replaceChildren();
-      columns.forEach(function (nodes, layer) {
+      tiers.forEach(function (nodes, layer) {
         nodes.sort(function (a, b) {
           return (a.domain + a.label).localeCompare(b.domain + b.label);
         });
@@ -529,24 +612,27 @@
             fullLabel: node.label,
             displayLabel:
               mode.value === "overview"
-                ? String(node.domain).slice(0, compactGraph.matches ? 3 : 16) +
-                  (String(node.domain).length > (compactGraph.matches ? 3 : 16)
-                    ? "…"
-                    : "") +
+                ? String(node.domain).slice(0, 18) +
+                  (String(node.domain).length > 18 ? "…" : "") +
                   " " +
                   number.format(node.count)
-                : String(node.label).slice(0, compactGraph.matches ? 5 : 22) +
-                  (String(node.label).length > (compactGraph.matches ? 5 : 22)
-                    ? "…"
-                    : ""),
+                : String(node.label).slice(0, 22) +
+                  (String(node.label).length > 22 ? "…" : ""),
             role: layer,
-            nodeX: (layers.indexOf(layer) + 0.5) / layers.length,
-            nodeY: (index + 1) / (nodes.length + 1),
+            nodeX: ((index % columnCount) + 0.5) / columnCount,
+            nodeY:
+              (tierOffsets[layers.indexOf(layer)] +
+                Math.floor(index / columnCount) +
+                0.5) /
+              totalRows,
+            nodeRadius: nodeRadius,
             pinned: true,
             value: node.count || 1,
           });
           var entry = element("button", node.label);
           entry.type = "button";
+          entry.dataset.lineageGraphNode = node.id;
+          entry.dataset.lineageGraphLayer = layer;
           entry.addEventListener("click", function () {
             authorized(function () {
               if (byID.has(node.id)) selectNode(node.id);
@@ -574,10 +660,10 @@
       chart = api.network(mount, rows, {
         width: "container",
         height: currentGraphHeight,
-        padding: { left: 16, right: 16, top: 48, bottom: 32 },
+        padding: { left: 96, right: 32, top: 48, bottom: 48 },
         theme: {
           extends: "graflume-light",
-          typography: { fontSize: compactGraph.matches ? 10 : 12 },
+          typography: { fontSize: 12 },
         },
         x: { field: "source", type: "ordinal" },
         y: { field: "value", type: "quantitative" },
@@ -594,6 +680,7 @@
             nodeX: "nodeX",
             nodeY: "nodeY",
             pinned: "pinned",
+            radius: "nodeRadius",
             edgeId: "id",
             weight: "value",
             directed: "directed",
@@ -619,6 +706,7 @@
           controls: { zoom: true, reset: true, fullscreen: true, export: true },
         },
       });
+      graphGeometry();
       chart.on("click", function (event) {
         var hit = event.hit && event.hit.familyInteraction;
         if (!hit || hit.kind !== "network-node") return;
@@ -634,7 +722,7 @@
         });
       });
       graphStatus.textContent =
-        layers.join(" → ") +
+        "Inbound ↓ L0 ↓ L1 ↓ L2 ↓ L3 · Review" +
         " · " +
         number.format(graph.nodes.length) +
         " nodes / " +
@@ -642,12 +730,15 @@
         " relations";
       root.dataset.lineageGraphNodes = String(graph.nodes.length);
       root.dataset.lineageGraphHeight = String(currentGraphHeight);
+      root.dataset.lineageGraphWidth = String(graphWidth);
+      root.dataset.lineageGraphLayout = "top-to-bottom";
       root.dataset.lineageGraphState = "ready";
     } catch (error) {
       if (chart) chart.destroy();
       chart = null;
       mount.replaceChildren();
       mount.hidden = true;
+      viewport.hidden = true;
       root.querySelector("[data-lineage-columns]").hidden = true;
       root.querySelector("[data-lineage-graph-key]").replaceChildren();
       graphStatus.textContent = String(error.message || labels.unavailable);
@@ -798,15 +889,18 @@
   if (typeof ResizeObserver === "function") {
     var previousWidth = 0;
     new ResizeObserver(function () {
-      var width = mount.clientWidth;
+      var width = viewport.clientWidth;
       if (chart && width && width !== previousWidth) {
         previousWidth = width;
-        chart.resize(width, currentGraphHeight);
+        var graphWidth = Math.max(width, naturalGraphWidth);
+        if (graphWidth !== Number.parseFloat(stage.style.width)) renderGraph();
+        else positionControls();
       }
-    }).observe(mount);
+    }).observe(viewport);
   }
-  compactGraph.addEventListener("change", function () {
-    if (active && catalog && graphOpen) renderGraph();
+  viewport.addEventListener("scroll", positionControls, { passive: true });
+  document.addEventListener("fullscreenchange", function () {
+    requestAnimationFrame(positionControls);
   });
   page = Math.max(
     1,
